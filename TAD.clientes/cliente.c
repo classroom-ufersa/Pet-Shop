@@ -4,10 +4,13 @@
 
 struct cliente{
 
-char nome[50];
+char nome[80];
 int telefone;
-char endereco;
-char animais;
+char endereco[80];
+char animais[80];
 };
+
+
+
 
 

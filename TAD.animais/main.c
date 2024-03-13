@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    Animal pet;
+    Animal *pet;
     int total_de_pets = 0;
 
     FILE *arquivo_petshop = fopen("arquivo_dados_do_petshop.txt", "w");
