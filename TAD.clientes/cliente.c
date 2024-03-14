@@ -36,5 +36,15 @@ Cliente * cria_cliente(char nome[], int telefone, char endereco, char animais){
     return consumidor;
 }
 
+void imprime_clientes (Cliente * consumidor, int num_clientes){
+
+    FILE *arquivo = fopen("clientes.txt", "a+");
+
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo!");
+        exit(1);
+    }
+}
+
 
 

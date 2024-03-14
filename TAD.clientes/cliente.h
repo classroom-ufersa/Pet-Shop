@@ -6,3 +6,8 @@ typedef struct cliente Cliente;
 e recebe dados do cliente via teclado
 */
 Cliente * cria_cliente(char nome[], int telefone, char endereco, char animais);
+
+/* Função que abre um arquivo e imprime nele os dados das frutas cadastradas
+*/
+void imprime_clientes (Cliente * consumidor, int num_clientes);
+
