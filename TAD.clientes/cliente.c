@@ -44,6 +44,18 @@ void imprime_clientes (Cliente * consumidor, int num_clientes){
         printf("Erro ao abrir arquivo!");
         exit(1);
     }
+
+    for (int i = 0; i < num_clientes; i++){
+
+        fprintf(arquivo, "\nclientes %d\n\t", i + 1);
+        fprintf(arquivo, "Nome: %s\n\t", consumidor[i].nome);
+        fprintf(arquivo, "Telefone: %d\n\t", consumidor[i].telefone);
+        fprintf(arquivo, "Endereco: %s\n\t", consumidor[i].endereco);
+        fprintf(arquivo, "Animal: %s\n\t", consumidor[i].animais);
+    }
+
+    fclose(arquivo);
+    printf("\nDados dos clientes foram impressos no arquivo 'clientes.txt'.\n");
 }
 
 
