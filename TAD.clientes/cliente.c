@@ -10,7 +10,7 @@ char endereco[80];
 char animais[80];
 };
 
-Cliente * cria_cliente(char nome[], int telefone, char endereco, char animais){
+Cliente * cria_cliente(void){
 
     Cliente * consumidor = (Cliente*) malloc(sizeof(Cliente*));
     
@@ -21,17 +21,34 @@ Cliente * cria_cliente(char nome[], int telefone, char endereco, char animais){
 
     printf("Informe os dados do cliente: ");
 
-    printf("Nome do cliente: ");
+    printf("\nNome do cliente: ");
     scanf(" %[^\n]", consumidor->nome);
 
-    printf("Informe o numero de telefone do cliente: ");
+    printf("\nInforme o numero de telefone do cliente: ");
     scanf("%d", &consumidor->telefone);
 
-    printf("Informe o endereco do cliente: ");
+    printf("\nInforme o endereco do cliente: ");
     scanf(" %[^\n]", consumidor->endereco);
 
-    printf("Informe qual seu animal: ");
+    printf("\nInforme qual seu animal: ");
     scanf(" %[^\n]", consumidor->animais);
+
+    return consumidor;
+}
+
+Cliente * cadastra_cliente(int num_clientes){
+    Cliente * consumidor = (Cliente *) malloc(num_clientes * sizeof(Cliente*));
+
+    if (consumidor == NULL){
+        printf("Erro ao alocar memoria! ");
+        exit(1);
+    }
+
+    for (int i = 0; i < num_clientes; i++){
+
+        printf("\n Cadastro do cliente\n");
+        consumidor[i] = *cria_cliente();
+    }
 
     return consumidor;
 }
@@ -47,7 +64,7 @@ void imprime_clientes (Cliente * consumidor, int num_clientes){
 
     for (int i = 0; i < num_clientes; i++){
 
-        fprintf(arquivo, "\nclientes %d\n\t", i + 1);
+        fprintf(arquivo, "\ncliente:\n\t");
         fprintf(arquivo, "Nome: %s\n\t", consumidor[i].nome);
         fprintf(arquivo, "Telefone: %d\n\t", consumidor[i].telefone);
         fprintf(arquivo, "Endereco: %s\n\t", consumidor[i].endereco);
@@ -57,6 +74,3 @@ void imprime_clientes (Cliente * consumidor, int num_clientes){
     fclose(arquivo);
     printf("\nDados dos clientes foram impressos no arquivo 'clientes.txt'.\n");
 }
-
-
-

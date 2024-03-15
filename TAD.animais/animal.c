@@ -1,4 +1,4 @@
-#include"animal.h"
+#include "animal.h"
 
 void add_animal(Animal *pet, int total_de_pets, FILE *arquivo_petshop){
 

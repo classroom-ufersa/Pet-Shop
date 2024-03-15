@@ -1,8 +1,25 @@
-#include "animal.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "TAD.animais/animal.h"
+#include "TAD.clientes/cliente.h"
+
 
 int main(void)
 {
-    Animal *pet;
+
+    int num_clientes;
+
+    printf("Informe o numero de clientes a serem cadastrados: ");
+    scanf("%d", &num_clientes);
+
+    Cliente *consumidor = cadastra_cliente(num_clientes);
+
+    imprime_clientes(consumidor, num_clientes);
+
+    free(consumidor);
+
+    
+    /*Animal *pet;
     int total_de_pets = 0;
 
     FILE *arquivo_petshop = fopen("arquivo_dados_do_petshop.txt", "w");
@@ -15,5 +32,6 @@ int main(void)
     add_animal(pet, total_de_pets, arquivo_petshop);
 
     return 0;
+    */
 }
     
