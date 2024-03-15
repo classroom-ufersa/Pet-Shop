@@ -11,3 +11,8 @@ Cliente * cria_cliente(char nome[], int telefone, char endereco, char animais);
 */
 void imprime_clientes (Cliente * consumidor, int num_clientes);
 
+/* Função que imprime os dados dos clientes no arquivo "clientes.txt"
+*/
+void imprime_clientes (Cliente * consumidor, int num_clientes);
+
+
