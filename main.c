@@ -15,18 +15,16 @@ int main(void)
     for (int i = 0; i < num_clientes; i++) {
         Cliente* novo_cliente = cria_cliente();
         insere_final(&lista_clientes, *novo_cliente);
-        free(novo_cliente); // Liberando a memória alocada para o cliente após inseri-lo na lista
+        free(novo_cliente); 
     }
 
-    // Agora que todos os clientes foram cadastrados na lista, podemos imprimir os clientes em um arquivo
     imprime_clientes(lista_clientes, "clientes.txt");
 
-    // Antes de encerrar o programa, é uma boa prática liberar a memória alocada para a lista encadeada
     No* temp;
     while (lista_clientes != NULL) {
         temp = lista_clientes;
         lista_clientes = lista_clientes->proximo;
-        free(temp); // Liberando o nó atual da lista
+        free(temp);
     }
 
     return 0;
