@@ -6,17 +6,31 @@
 
 int main(void)
 {
-
+    No* lista_clientes = NULL;
     int num_clientes;
 
     printf("Informe o numero de clientes a serem cadastrados: ");
     scanf("%d", &num_clientes);
 
-    Cliente *consumidor = cadastra_cliente(num_clientes);
+    for (int i = 0; i < num_clientes; i++) {
+        Cliente* novo_cliente = cria_cliente();
+        insere_final(&lista_clientes, *novo_cliente);
+        free(novo_cliente); // Liberando a memória alocada para o cliente após inseri-lo na lista
+    }
 
-    imprime_clientes(consumidor, num_clientes);
+    // Agora que todos os clientes foram cadastrados na lista, podemos imprimir os clientes em um arquivo
+    imprime_clientes(lista_clientes, "clientes.txt");
 
-    free(consumidor);
+    // Antes de encerrar o programa, é uma boa prática liberar a memória alocada para a lista encadeada
+    No* temp;
+    while (lista_clientes != NULL) {
+        temp = lista_clientes;
+        lista_clientes = lista_clientes->proximo;
+        free(temp); // Liberando o nó atual da lista
+    }
+
+    return 0;
+}
 
     
     /*Animal *pet;
@@ -33,5 +47,5 @@ int main(void)
 
     return 0;
     */
-}
+
     

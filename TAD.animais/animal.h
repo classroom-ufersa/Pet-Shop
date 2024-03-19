@@ -9,6 +9,6 @@ typedef struct animal{
 }Animal;
 
 
-void add_animal(Animal *pet, FILE *arquivo_petshop);
+void add_animal(Animal *pet, int total_de_pets, FILE *arquivo_petshop);
 
 Animal *cadastrar_animal(int total_de_pets, FILE *arquivo_petshop);
