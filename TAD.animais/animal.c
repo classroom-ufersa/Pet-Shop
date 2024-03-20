@@ -1,6 +1,16 @@
 #include "animal.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void add_animal(Animal *pet, int total_de_pets, FILE *arquivo_petshop){
+
+    //Animal *pet = (Animal *)malloc(sizeof(Animal));
+
+    if (pet == NULL)
+    {
+        printf("Erro ao alocar memória!");
+        exit(1);
+    }
 
     printf("Digite o nome do animal: ");
     scanf(" %[^\n]", pet[total_de_pets].nome);
@@ -11,9 +21,48 @@ void add_animal(Animal *pet, int total_de_pets, FILE *arquivo_petshop){
     printf("Digite o estado de saude do animal: ");
     scanf(" %[^\n]", pet[total_de_pets].saude);
 
-    fprintf(arquivo_petshop, "Nome: %s\n", pet[total_de_pets].nome);
-    fprintf(arquivo_petshop, "Especie: %s\n", pet[total_de_pets].especie);
-    fprintf(arquivo_petshop, "Saude: %s\n", pet[total_de_pets].saude);
-    fprintf(arquivo_petshop, "\n");
+    //fprintf(arquivo_petshop, "Nome: %s\n", pet[total_de_pets].nome);
+    //fprintf(arquivo_petshop, "Especie: %s\n", pet[total_de_pets].especie);
+    //fprintf(arquivo_petshop, "Saude: %s\n", pet[total_de_pets].saude);
+    //fprintf(arquivo_petshop, "\n");
 
 }
+
+Animal *cadastra_animal(int num_animal)
+{
+    Animal *pet = (Animal *)malloc(num_animal * sizeof(Animal));
+
+    if (pet == NULL)
+    {
+        printf("Erro ao alocar memoria! ");
+        exit(1);
+    }
+
+   FILE *arquivo_petshop = fopen("petshop.txt", "a");
+    if (arquivo_petshop == NULL) {
+        printf("Erro ao abrir o arquivo!");
+        exit(1);
+    }
+
+    for (int i = 0; i < num_animal; i++) {
+        printf("\n Cadastro do animal %d\n", i+1);
+        add_animal(pet, i, arquivo_petshop);
+    }
+
+    fclose(arquivo_petshop);
+    return pet;
+}
+/*
+No *cria_no(Animal animal) {
+    No *Novo_no = (No *)malloc(sizeof(No));
+
+    if (Novo_no == NULL) {
+        printf("Erro ao alocar memória para novo nó;");
+        exit(1);
+    }
+
+    Novo_no->animal = animal;
+    Novo_no->proximo = NULL;
+    return Novo_no;
+}
+*/

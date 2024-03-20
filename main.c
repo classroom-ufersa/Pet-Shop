@@ -6,6 +6,12 @@
 
 int main(void)
 {
+
+    void add_animal(Animal *pet, int total_de_pets, FILE *arquivo_petshop);
+
+    Animal *cadastra_animal(int num_animal);
+
+    /*
     No* lista_clientes = NULL;
     int num_clientes;
 
@@ -26,6 +32,7 @@ int main(void)
         lista_clientes = lista_clientes->proximo;
         free(temp);
     }
+    */
 
     return 0;
 }
