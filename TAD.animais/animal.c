@@ -52,9 +52,9 @@ Animal *cadastra_animal(int num_animal)
     fclose(arquivo_petshop);
     return pet;
 }
-/*
-No *cria_no(Animal animal) {
-    No *Novo_no = (No *)malloc(sizeof(No));
+
+No2 *cria_no(Animal animal) {
+    No2 *Novo_no = (No2 *)malloc(sizeof(No2));
 
     if (Novo_no == NULL) {
         printf("Erro ao alocar memória para novo nó;");
@@ -65,4 +65,24 @@ No *cria_no(Animal animal) {
     Novo_no->proximo = NULL;
     return Novo_no;
 }
-*/
+
+void insere_final(No2 **cabeca, Animal animal)
+{
+
+    No2 *Novo_no = cria_no(animal);
+    if (*cabeca == NULL)
+    {
+        *cabeca = Novo_no;
+    }
+
+    else
+    {
+        No2 *temp = *cabeca;
+        while (temp->proximo != NULL)
+        {
+            temp = temp->proximo;
+        }
+
+        temp->proximo = Novo_no;
+    }
+}
