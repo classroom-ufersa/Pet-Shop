@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./cliente.h"
+#include "cliente.h"
 #include "../TAD.animais/animal.h"
 
 No *cria_no(Cliente cliente)

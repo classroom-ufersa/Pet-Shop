@@ -1,3 +1,5 @@
+/* Definição da struct: cliente
+*/
 struct cliente
 {
     char nome[80];
@@ -10,20 +12,15 @@ struct cliente
 */
 typedef struct cliente Cliente;
 
+/* Definição de um novo tipo: No*/
 typedef struct no
 {
-
     Cliente cliente;
     struct no *proximo;
-
 }No;
 
-
-
-
-
-/*
-*/
+/* /* Função que aloca memória dinâmicamente para um struct Cliente,
+recebe os dados dos clientes via teclado e retorna um ponteiro para Cliente*/
 Cliente * cria_cliente(void);
 
 /* Função para criar um nó da lista encadeada
