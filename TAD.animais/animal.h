@@ -37,3 +37,12 @@ lista. Se a lista estiver vazia, o novo nó será inserido como o primeiro nó d
 Caso contrário, a função percorre a lista até encontrar o último nó e adiciona o novo nó como seu próximo nó.
 */
 void insere_final2(No2 **cabeca, Animal animal);
+
+/*
+Menu com as opçoes
+*/
+void menu();
+
+/*Essa função lê a opção escolhida pelo usuário e verifica se a opção é válida,
+recebendo como parâmetro o menor valor e o maior valor que a opção pode ter.*/
+char ler_opcao(char menor_valor, char maior_valor);

@@ -1,6 +1,7 @@
 #include "animal.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 No2 *cria_no2(Animal animal) {
     No2 *Novo_no = (No2 *)malloc(sizeof(No2));
@@ -42,8 +43,8 @@ Animal* add_animal(void){
 
     if (pet == NULL)
     {
-        printf("Erro ao alocar memória!");
-        exit(1);
+    printf("Erro ao alocar memória!");
+    exit(1);
     }
 
     printf("Informe os dados do animal:\n");
@@ -75,4 +76,40 @@ Animal *cadastra_animal(int num_animal)
         pet[i] = *add_animal();
     }
     return pet;
+}
+
+void menu(){
+    printf("\nMenu de Opções:\n");
+    printf("\n");
+    printf("1. Adicionar Cliente\n");
+    printf("2. Remover Cliente\n");
+    printf("3. Adicionar Animal\n");
+    printf("4. Remover Animal\n");
+    printf("5. Editar Cadastro de Animal\n");
+    printf("6. Buscar Animal por Nome\n");
+    printf("7. Listar Clientes e Animais\n");
+    printf("8. Sair\n");
+    printf("\n");
+}
+
+char ler_opcao(char menor_valor, char maior_valor)
+{
+    char escolhaop;
+    char entrada[100];
+
+    do
+    {
+        scanf(" %[^\n]", entrada);
+
+        escolhaop = entrada[0];
+
+        if (escolhaop >= menor_valor && escolhaop <= maior_valor && strlen(entrada) == 1)
+        {
+            return escolhaop;
+        }
+        else
+        {
+            printf("Opcao invalida. A opcao deve estar entre %c e %c: ", menor_valor, maior_valor);
+        }
+    } while (1);
 }
