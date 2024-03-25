@@ -5,7 +5,7 @@
 
 No *cria_no(Cliente cliente)
 {
-
+    //Aloca memoria para novo no da lista encadeada
     No *Novo_no = (No *)malloc(sizeof(No));
 
     if (Novo_no == NULL)
@@ -13,29 +13,35 @@ No *cria_no(Cliente cliente)
         printf("Erro ao alocar memoria para novo no;");
         exit(1);
     }
-
+    //Inicializa campos do no com os dados fornecidos do cliente
     Novo_no->cliente = cliente;
-    Novo_no->proximo = NULL;
+    Novo_no->proximo = NULL; //Define próximo no como null, por se tratar do ultimo
     return Novo_no;
 }
 
 void insere_final(No **cabeca, Cliente cliente)
 {
-
+    //Cria um novo no, passando o cliente como parâmetro
     No *Novo_no = cria_no(cliente);
+
+    //verifica se a lista esta vazia
     if (*cabeca == NULL)
     {
+
+        //Caso lista esteja vazia, novo no se torna o primeiro da lista
         *cabeca = Novo_no;
     }
 
     else
     {
+        //Caso lista não esteja vazia, percorre a lista até encontrar último no
         No *temp = *cabeca;
         while (temp->proximo != NULL)
         {
             temp = temp->proximo;
         }
 
+        //Conecta novo no ao final da lista
         temp->proximo = Novo_no;
     }
 }

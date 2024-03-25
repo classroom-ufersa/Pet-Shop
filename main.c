@@ -14,7 +14,7 @@ int main(void)
 
     do {
         menu();
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         escolhaop = ler_opcao('1', '8'); 
 
         switch (escolhaop) {
@@ -40,7 +40,7 @@ int main(void)
 
         case '2':
         //funçao de remover cliente
-		printf("em andamneto\n");
+		printf("Função indisponivel\n");
         break;
 
         case '3':
@@ -53,27 +53,27 @@ int main(void)
 
         case '4': 
 		//funçao de remover animal
-		printf("em andamento\n");
+		printf("Função indisponivel\n");
         break;
 
 	    case '5':
 		//funçao de editar cadastro de animal
-		printf("em andamento\n");
+		printf("Função indisponivel\n");
         break;
 
 	    case '6':   
 		//funçao de Buscar Animal por Nome
-		printf("em andamento\n");
+		printf("Função indisponivel\n");
         break;
 
 	    case '7': 
 		//funçao de Listar Clientes e Animais
-		printf("em andamento\n");
+		printf("Função indisponivel\n");
         break;
 
 	    case '8':   
 		//sair
-		printf("Encerrando programa...\n");
+		printf("Obrigado e volte sempre!\n");
         break;
 
         default:
