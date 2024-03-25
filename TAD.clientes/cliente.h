@@ -19,7 +19,7 @@ typedef struct no
     struct no *proximo;
 }No;
 
-/* /* Função que aloca memória dinâmicamente para um struct Cliente,
+/*Função que aloca memória dinâmicamente para um struct Cliente,
 recebe os dados dos clientes via teclado e retorna um ponteiro para Cliente*/
 Cliente * cria_cliente(void);
 
