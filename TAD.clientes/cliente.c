@@ -51,6 +51,8 @@ Cliente *cria_cliente(void)
 
     Cliente *consumidor = (Cliente *)malloc(sizeof(Cliente));
 
+    int num_animais;
+
     if (consumidor == NULL)
     {
         printf("Erro ao alocar memória!");
@@ -68,8 +70,11 @@ Cliente *cria_cliente(void)
     printf("\nInforme o endereco do cliente: ");
     scanf(" %[^\n]", consumidor->endereco);
 
-    printf("\nInforme qual seu animal:\n ");
-    scanf(" %[^\n]", consumidor->animais);
+    printf("Quantos animais deseja cadastrar?");
+	scanf(" %d", &num_animais);
+
+	Animal *petshop = cadastra_animal(num_animais);
+	//free(petshop);            
 
     return consumidor;
 }
@@ -114,7 +119,7 @@ void imprime_clientes(No *cabeca, const char *nome_arquivo)
         fprintf(arquivo, "Nome: %s\n\t", cabeca->cliente.nome);
         fprintf(arquivo, "Telefone: %d\n\t", cabeca->cliente.telefone);
         fprintf(arquivo, "Endereco: %s\n\t", cabeca->cliente.endereco);
-        fprintf(arquivo, "Animal: %s\n\t", cabeca->cliente.animais);
+        //fprintf(arquivo, "Animal: %s\n\t", cabeca->cliente.animais);
         cabeca = cabeca->proximo;
     }
     fclose(arquivo);
