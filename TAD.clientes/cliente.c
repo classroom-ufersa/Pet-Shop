@@ -70,11 +70,8 @@ Cliente *cria_cliente(void)
     printf("\nInforme o endereco do cliente: ");
     scanf(" %[^\n]", consumidor->endereco);
 
-    printf("Quantos animais deseja cadastrar?");
-	scanf(" %d", &num_animais);
-
-	Animal *petshop = cadastra_animal(num_animais);
-	//free(petshop);            
+    printf("\nQuantos animais deseja cadastrar?");
+	add_animal();         
 
     return consumidor;
 }

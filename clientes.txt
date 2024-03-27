@@ -2,14 +2,7 @@
 Clientes cadastrados:
 
 cliente:
-	Nome: teste
-	Telefone: 54
-	Endereco: 65
-	
-Clientes cadastrados:
-
-cliente:
-	Nome: kaue
-	Telefone: 4453453
-	Endereco: 345345345
+	Nome: kue
+	Telefone: 76
+	Endereco: 76
 	
