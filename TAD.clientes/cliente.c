@@ -70,7 +70,7 @@ Cliente *cria_cliente(void)
     printf("\nInforme o endereco do cliente: ");
     scanf(" %[^\n]", consumidor->endereco);
 
-    printf("\nQuantos animais deseja cadastrar?");
+    printf("Quantos animais deseja cadastrar?\n");
 	add_animal();         
 
     return consumidor;
@@ -96,7 +96,7 @@ Cliente *cadastra_cliente(int num_clientes)
     return consumidor;
 }
 
-void imprime_clientes(No *cabeca, const char *nome_arquivo)
+void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais)
 {
 
     FILE *arquivo = fopen(nome_arquivo, "a+");
@@ -109,14 +109,25 @@ void imprime_clientes(No *cabeca, const char *nome_arquivo)
 
     fprintf(arquivo, "\nClientes cadastrados:\n");
 
-    while (cabeca != NULL)
+     while (cabeca != NULL)
     {
+        No2 *ptr_animal = cabeca_animais;
 
         fprintf(arquivo, "\ncliente:\n\t");
         fprintf(arquivo, "Nome: %s\n\t", cabeca->cliente.nome);
         fprintf(arquivo, "Telefone: %d\n\t", cabeca->cliente.telefone);
         fprintf(arquivo, "Endereco: %s\n\t", cabeca->cliente.endereco);
-        //fprintf(arquivo, "Animal: %s\n\t", cabeca->cliente.animais);
+
+        while (ptr_animal != NULL){
+            
+            fprintf(arquivo, "\nAnimal:\n\t");
+            fprintf(arquivo, "Nome: %s\n\t", ptr_animal->animal.nome);
+            fprintf(arquivo, "Especie: %s\n\t", ptr_animal->animal.especie);
+            fprintf(arquivo, "Saude: %s\n\t", ptr_animal->animal.saude);
+
+            ptr_animal = ptr_animal->proximo;
+        }
+
         cabeca = cabeca->proximo;
     }
     fclose(arquivo);

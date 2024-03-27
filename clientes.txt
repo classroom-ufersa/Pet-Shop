@@ -6,3 +6,10 @@ cliente:
 	Telefone: 76
 	Endereco: 76
 	
+Clientes cadastrados:
+
+cliente:
+	Nome: Messi
+	Telefone: 23
+	Endereco: 23
+	
