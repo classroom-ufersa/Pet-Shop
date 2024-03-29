@@ -3,6 +3,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+No2 *lista_remove(No2 *cabeca, int v){
+    No2 *ant = NULL;
+    No2 *p = cabeca;
+
+    while(p != NULL && p->animal.id != v){
+        ant = p;
+        p = p->proximo;
+    }
+    if(p == NULL){
+        return cabeca;
+    }
+    if(ant == NULL){
+        cabeca = p->proximo;
+    }
+    else{
+        ant->proximo = p->proximo;
+    }
+    free(p);
+    return cabeca;
+}
+
 No2 *cria_no2(Animal animal) {
     No2 *Novo_no = (No2 *)malloc(sizeof(No2));
 
@@ -43,19 +64,19 @@ Animal* add_animal(void){
 
     if (pet == NULL)
     {
-    printf("Erro ao alocar memória!");
+    printf("Erro ao alocar memória!\n");
     exit(1);
     }
 
-    printf("Informe os dados do animal:\n");
+    printf("Informe os dados do animal.\n");
 
-    printf("Digite o nome do animal: ");
+    printf("Digite o nome do animal:\n ");
     scanf(" %[^\n]", pet->nome);
 
-    printf("Digite a especie do animal: ");
+    printf("Digite a especie do animal:\n ");
     scanf(" %[^\n]", pet->especie);
 
-    printf("Digite o estado de saude do animal: ");
+    printf("Digite o estado de saude do animal:\n ");
     scanf(" %[^\n]", pet->saude);
 
     return pet;

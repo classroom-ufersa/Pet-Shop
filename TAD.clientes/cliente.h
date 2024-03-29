@@ -37,4 +37,4 @@ Cliente * cadastra_cliente(int num_clientes);
 
 /* Função que abre um arquivo e imprime nele os dados dos clientes cadastradas
 */
-void imprime_clientes (No* cabeca, const char* nome_arquivo);
+void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais);

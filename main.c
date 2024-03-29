@@ -8,6 +8,9 @@ int main(void)
 {
 
     No* lista_clientes = NULL;
+	No2 *lista_animais = NULL;
+	No2 *cabeca = NULL;
+	int valor_remover;
     int num_clientes;
     int num_animais;
     char escolhaop;
@@ -28,7 +31,7 @@ int main(void)
         	free(novo_cliente); 
    		}
 
-		imprime_clientes(lista_clientes, "clientes.txt");
+		imprime_clientes_animais(lista_clientes, "clientes_e_animais.txt", lista_animais);
 
   	  	No* temp;
     		while (lista_clientes != NULL) {
@@ -52,8 +55,11 @@ int main(void)
 		break;
 
         case '4': 
-		//funçao de remover animal
-		printf("Função indisponivel\n");
+		printf("Informe o valor que deseja remover: ");
+    	scanf("%d", &valor_remover);
+
+    	cabeca = lista_remove(cabeca, valor_remover);
+
         break;
 
 	    case '5':

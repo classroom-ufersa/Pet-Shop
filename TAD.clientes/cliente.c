@@ -98,9 +98,7 @@ Cliente *cadastra_cliente(int num_clientes)
 
 void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais)
 {
-
     FILE *arquivo = fopen(nome_arquivo, "a+");
-
     if (arquivo == NULL)
     {
         printf("Erro ao abrir arquivo!");
@@ -109,27 +107,28 @@ void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais)
 
     fprintf(arquivo, "\nClientes cadastrados:\n");
 
-     while (cabeca != NULL)
+    while (cabeca != NULL)
     {
         No2 *ptr_animal = cabeca_animais;
 
-        fprintf(arquivo, "\ncliente:\n\t");
-        fprintf(arquivo, "Nome: %s\n\t", cabeca->cliente.nome);
-        fprintf(arquivo, "Telefone: %d\n\t", cabeca->cliente.telefone);
-        fprintf(arquivo, "Endereco: %s\n\t", cabeca->cliente.endereco);
+        fprintf(arquivo, "\nCliente:\n");
+        fprintf(arquivo, "Nome: %s\n", cabeca->cliente.nome);
+        fprintf(arquivo, "Telefone: %d\n", cabeca->cliente.telefone);
+        fprintf(arquivo, "Endereco: %s\n", cabeca->cliente.endereco);
 
-        while (ptr_animal != NULL){
-            
-            fprintf(arquivo, "\nAnimal:\n\t");
-            fprintf(arquivo, "Nome: %s\n\t", ptr_animal->animal.nome);
-            fprintf(arquivo, "Especie: %s\n\t", ptr_animal->animal.especie);
-            fprintf(arquivo, "Saude: %s\n\t", ptr_animal->animal.saude);
-
+        fprintf(arquivo, "\nAnimais do Cliente:\n");
+        while (ptr_animal != NULL)
+        {
+            fprintf(arquivo, "\tNome: %s\n", ptr_animal->animal.nome);
+            fprintf(arquivo, "\tEspecie: %s\n", ptr_animal->animal.especie);
+            fprintf(arquivo, "\tSaude: %s\n", ptr_animal->animal.saude);
             ptr_animal = ptr_animal->proximo;
         }
 
         cabeca = cabeca->proximo;
     }
+
     fclose(arquivo);
-    printf("\nDados dos clientes foram impressos no arquivo %s.\n", nome_arquivo);
+    printf("\nDados dos clientes e seus animais foram impressos no arquivo %s.\n", nome_arquivo);
 }
+

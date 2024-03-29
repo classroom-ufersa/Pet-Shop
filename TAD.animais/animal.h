@@ -46,3 +46,8 @@ void menu();
 /*Essa função lê a opção escolhida pelo usuário e verifica se a opção é válida,
 recebendo como parâmetro o menor valor e o maior valor que a opção pode ter.*/
 char ler_opcao(char menor_valor, char maior_valor);
+
+/*
+funçao que remove um elemento da lista
+*/
+No2 *lista_remove(No2 *cabeca, int v);
