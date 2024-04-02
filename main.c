@@ -31,7 +31,7 @@ int main(void)
         	free(novo_cliente); 
    		}
 
-		imprime_clientes_animais(lista_clientes, "clientes_e_animais.txt", lista_animais);
+		imprime_clientes(lista_clientes, "clientes_e_animais.txt", lista_animais);
 
   	  	No* temp;
     		while (lista_clientes != NULL) {

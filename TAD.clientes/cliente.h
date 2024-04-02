@@ -1,3 +1,8 @@
+#ifndef CLIENTE_H
+#define CLIENTE_H
+
+#include"../TAD.animais/animal.h"
+
 /* Definição da struct: cliente
 */
 struct cliente
@@ -38,3 +43,5 @@ Cliente * cadastra_cliente(int num_clientes);
 /* Função que abre um arquivo e imprime nele os dados dos clientes cadastradas
 */
 void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais);
+
+#endif

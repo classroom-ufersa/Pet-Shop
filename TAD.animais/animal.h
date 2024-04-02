@@ -1,3 +1,6 @@
+#ifndef ANIMAL_H
+#define ANIMAL_H
+
 /* Definição da struct
 */
 struct animal{
@@ -51,3 +54,5 @@ char ler_opcao(char menor_valor, char maior_valor);
 funçao que remove um elemento da lista
 */
 No2 *lista_remove(No2 *cabeca, int v);
+
+#endif

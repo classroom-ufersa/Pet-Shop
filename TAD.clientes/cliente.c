@@ -131,4 +131,3 @@ void imprime_clientes(No *cabeca, const char *nome_arquivo, No2 *cabeca_animais)
     fclose(arquivo);
     printf("\nDados dos clientes e seus animais foram impressos no arquivo %s.\n", nome_arquivo);
 }
-
