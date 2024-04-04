@@ -26,7 +26,9 @@ Lista* lista_animais(void);
 
 int lista_vazia(Lista *l);
 
-Lista* lista_ler_arquivo();
+//Lista* lista_ler_arquivo();
+
+void imprime_animais(Lista *animal, const char *nome_arquivo);
 
 /*
 Menu com as opçoes

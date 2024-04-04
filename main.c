@@ -26,10 +26,11 @@ int main(void)
     		for (int i = 0; i < num_clientes; i++) {
     		Cliente* novo_cliente = cria_cliente();
         	 lista_clientes = insere_ordenada(lista_clientes, *novo_cliente);
-            free(novo_cliente);
+            imprime_clientes(lista_clientes, "clientes_e_animais.txt");
+        	free(novo_cliente); 
    		}
 
-        imprime_clientes(lista_clientes, "clientes_e_animais.txt"); 
+		//imprime_clientes(lista_clientes, "clientes_e_animais.txt", lista_animais);
 
   	  	No* temp;
     		while (lista_clientes != NULL) {
@@ -45,11 +46,11 @@ int main(void)
         break;
 
         case '3':
-			printf("\n Cadastro de animal\n");
-            Animal *novo_animal = add_animal();
-            animais = lista_insere_ordenada(animais, novo_animal);
-            printf("\nAnimal cadastrado com sucesso!\n");
-		           
+        Animal *novo_animal = add_animal();
+        animais = lista_insere_ordenada(animais, novo_animal);   
+
+        imprime_animais(animais, "animais.txt");
+
 		break;
 
         case '4': 
@@ -68,8 +69,11 @@ int main(void)
         break;
 
 	    case '7': 
-		//funçao de Listar Clientes e Animais
+
+	    //imprime_animais(animais, "animais.txt");
+        //funçao de Buscar Animal por Nome
 		printf("Função indisponivel\n");
+
         break;
 
 	    case '8':   

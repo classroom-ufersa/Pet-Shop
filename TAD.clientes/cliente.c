@@ -85,9 +85,6 @@ Cliente *cria_cliente(void)
 
     Cliente *consumidor = (Cliente *)malloc(sizeof(Cliente));
 
-    int num_animais;
-    int *ptr_animal;
-
     if (consumidor == NULL)
     {
         printf("Erro ao alocar memória!");
