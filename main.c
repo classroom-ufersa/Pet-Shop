@@ -6,7 +6,7 @@
 
 int main(void)
 {
- 	Lista *animais = lista_ler_arquivo();
+ 	Lista *animais;
     No* lista_clientes = NULL;
 	int valor_remover;
     int num_clientes;
@@ -25,7 +25,8 @@ int main(void)
 
     		for (int i = 0; i < num_clientes; i++) {
     		Cliente* novo_cliente = cria_cliente();
-        	insere_final(&lista_clientes, *novo_cliente);
+        	 lista_clientes = insere_ordenada(lista_clientes, *novo_cliente);
+            imprime_clientes(lista_clientes, "clientes_e_animais.txt");
         	free(novo_cliente); 
    		}
 

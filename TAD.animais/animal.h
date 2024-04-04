@@ -1,17 +1,17 @@
 #ifndef ANIMAL_H
 #define ANIMAL_H
 
-typedef struct lista {
-    Animal *animal;
-    struct lista *proximo;
-} Lista;
-
 typedef struct animal {
     char nome[80];
     char especie[80];
     char saude[80];
     int id_animal;
 } Animal;
+
+typedef struct lista {
+    Animal *animal;
+    struct lista *proximo;
+} Lista;
 
 /* Esta função solicita ao usuário o nome, espécie e saúde de um animal e armazena esses dados no array pet.*/
 Animal* add_animal(void);

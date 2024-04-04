@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "string.h"
 #include "cliente.h"
 #include "../TAD.animais/animal.h"
 
@@ -45,6 +46,31 @@ void insere_final(No **cabeca, Cliente cliente)
         temp->proximo = Novo_no;
     }
 }
+
+No *insere_ordenada(No *lista, Cliente cliente) {
+    No *novo_no = cria_no(cliente);
+    No *atual = lista;
+    No *anterior = NULL;
+
+    // Caso a lista esteja vazia ou o novo cliente deva ser o primeiro
+    if (lista == NULL || strcmp(cliente.nome, lista->cliente.nome) < 0) {
+        novo_no->proximo = lista;
+        return novo_no;
+    }
+
+    // Encontra o local correto para inserir o novo cliente
+    while (atual != NULL && strcmp(cliente.nome, atual->cliente.nome) < 0) {
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    // Insere o novo cliente na posição correta
+    novo_no->proximo = atual;
+    anterior->proximo = novo_no;
+
+    return lista;
+}
+
 
 Cliente *cria_cliente(void)
 {

@@ -35,6 +35,9 @@ No* cria_no(Cliente cliente);
 */
 void insere_final(No** cabeca, Cliente cliente);
 
+No *insere_ordenada(No *lista, Cliente cliente);
+
+
 /* Função que realiza o cadastro de N clientes
 */
 Cliente * cadastra_cliente(int num_clientes);
