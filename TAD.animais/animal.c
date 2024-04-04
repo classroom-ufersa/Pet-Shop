@@ -3,72 +3,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-No2 *lista_remove(No2 *cabeca, int v){
-    No2 *ant = NULL;
-    No2 *p = cabeca;
+Lista* lista_animais(void) {
+    return NULL;
+}
 
-    while(p != NULL && p->animal.id != v){
+Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
+    Lista *novo;
+    Lista *ant = NULL;
+    Lista *p = l;
+    
+    while(p != NULL && strcmp(p->animal->nome, novo_animal->nome) < 0){
         ant = p;
         p = p->proximo;
     }
-    if(p == NULL){
-        return cabeca;
+    
+    novo = (Lista*) malloc(sizeof(Lista));
+    if (novo == NULL){
+        printf("Erro, memoria insuficiente!");
+        exit(1);
     }
+    
+    novo->animal = novo_animal;
+    
     if(ant == NULL){
-        cabeca = p->proximo;
+        novo->proximo = l;
+        l = novo;
+    } else {
+        novo->proximo = ant->proximo;
+        ant->proximo = novo;
     }
-    else{
-        ant->proximo = p->proximo;
-    }
-    free(p);
-    return cabeca;
+    
+    return l;
 }
 
-No2 *cria_no2(Animal animal) {
-    No2 *Novo_no = (No2 *)malloc(sizeof(No2));
+int lista_vazia(Lista *l){
+    return (l == NULL);
+}
 
-    if (Novo_no == NULL) {
-        printf("Erro ao alocar memória para novo no;");
+Animal* add_animal(void) {
+    Animal *pet = (Animal *)malloc(sizeof(Animal));
+
+    if (pet == NULL) {
+        printf("Erro ao alocar memória!\n");
         exit(1);
     }
 
-    Novo_no->animal = animal;
-    Novo_no->proximo = NULL;
-    return Novo_no;
-}
-
-void insere_final2(No2 **cabeca, Animal animal)
-{
-
-    No2 *Novo_no = cria_no2(animal);
-    if (*cabeca == NULL)
-    {
-        *cabeca = Novo_no;
-    }
-
-    else
-    {
-        No2 *temp = *cabeca;
-        while (temp->proximo != NULL)
-        {
-            temp = temp->proximo;
-        }
-
-        temp->proximo = Novo_no;
-    }
-}
-
-Animal* add_animal(void){
-
-    Animal *pet = (Animal *)malloc(sizeof(Animal));
-
-    if (pet == NULL)
-    {
-    printf("Erro ao alocar memória!\n");
-    exit(1);
-    }
-
-    printf("Informe os dados do animal.\n");
+    printf("---Informe os dados do animal---\n");
 
     printf("Digite o nome do animal:\n ");
     scanf(" %[^\n]", pet->nome);
@@ -97,6 +77,37 @@ Animal *cadastra_animal(int num_animal)
         pet[i] = *add_animal();
     }
     return pet;
+}
+
+Lista* lista_ler_arquivo() {
+    FILE *arquivo;
+    Animal *novo_animal;
+    Lista *l = lista_animais();
+
+    arquivo = fopen("pet_shop.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        exit(1);
+    }
+
+    novo_animal = (Animal *)malloc(sizeof(Animal));
+    if (novo_animal == NULL) {
+        printf("Erro ao alocar memória!\n");
+        exit(1);
+    }
+
+    while (fscanf(arquivo, "%s %s %s %d", novo_animal->nome, novo_animal->especie, novo_animal->saude, &novo_animal->id_animal) != EOF) {
+        l = lista_insere_ordenada(l, novo_animal);
+        novo_animal = (Animal *)malloc(sizeof(Animal));
+        if (novo_animal == NULL) {
+            printf("Erro ao alocar memória!\n");
+            exit(1);
+        }
+    }
+
+    free(novo_animal);
+    fclose(arquivo);
+    return l;
 }
 
 void menu(){

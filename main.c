@@ -6,10 +6,8 @@
 
 int main(void)
 {
-
+ 	Lista *animais = lista_ler_arquivo();
     No* lista_clientes = NULL;
-	No2 *lista_animais = NULL;
-	No2 *cabeca = NULL;
 	int valor_remover;
     int num_clientes;
     int num_animais;
@@ -31,7 +29,7 @@ int main(void)
         	free(novo_cliente); 
    		}
 
-		imprime_clientes(lista_clientes, "clientes_e_animais.txt", lista_animais);
+		//imprime_clientes(lista_clientes, "clientes_e_animais.txt", lista_animais);
 
   	  	No* temp;
     		while (lista_clientes != NULL) {
@@ -47,18 +45,15 @@ int main(void)
         break;
 
         case '3':
-		printf("Quantos animais deseja cadastrar?");
-		scanf(" %d", &num_animais);
-
-		Animal *petshop = cadastra_animal(num_animais);
-		free(petshop);            
+			printf("\n Cadastro de animal\n");
+            Animal *novo_animal = add_animal();
+            animais = lista_insere_ordenada(animais, novo_animal);
+            printf("\nAnimal cadastrado com sucesso!\n");
+		           
 		break;
 
         case '4': 
-		printf("Informe o valor que deseja remover: ");
-    	scanf("%d", &valor_remover);
-
-    	cabeca = lista_remove(cabeca, valor_remover);
+		printf("Função indisponivel\n");
 
         break;
 
