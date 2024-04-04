@@ -26,11 +26,10 @@ int main(void)
     		for (int i = 0; i < num_clientes; i++) {
     		Cliente* novo_cliente = cria_cliente();
         	 lista_clientes = insere_ordenada(lista_clientes, *novo_cliente);
-            imprime_clientes(lista_clientes, "clientes_e_animais.txt");
-        	free(novo_cliente); 
+            free(novo_cliente);
    		}
 
-		//imprime_clientes(lista_clientes, "clientes_e_animais.txt", lista_animais);
+        imprime_clientes(lista_clientes, "clientes_e_animais.txt"); 
 
   	  	No* temp;
     		while (lista_clientes != NULL) {

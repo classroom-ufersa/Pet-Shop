@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
+#include <string.h>
 #include "cliente.h"
 #include "../TAD.animais/animal.h"
 
@@ -59,14 +59,22 @@ No *insere_ordenada(No *lista, Cliente cliente) {
     }
 
     // Encontra o local correto para inserir o novo cliente
-    while (atual != NULL && strcmp(cliente.nome, atual->cliente.nome) < 0) {
+    while (atual != NULL && strcmp(cliente.nome, atual->cliente.nome) > 0) {
         anterior = atual;
         atual = atual->proximo;
     }
 
     // Insere o novo cliente na posição correta
     novo_no->proximo = atual;
-    anterior->proximo = novo_no;
+
+    if(anterior != NULL){
+
+        anterior->proximo = novo_no;    
+    }
+    
+    else {
+        lista = novo_no;
+    }
 
     return lista;
 }
@@ -112,7 +120,7 @@ Cliente *cadastra_cliente(int num_clientes)
         exit(1);
     }
 
-    for (int i = 1; i < num_clientes; i++)
+    for (int i = 0; i < num_clientes; i++)
     {
 
         printf("\n Cadastro do cliente\n");
