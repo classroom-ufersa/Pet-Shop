@@ -56,7 +56,7 @@ Cliente * Lista_busca(char elemento[], Cliente * Lista){
     return NULL;
 }
 
-Cliente *lista_retira(Cliente *Lista, int v){
+Cliente *lista_retira(Cliente *Lista, char nome[]){
 
     Cliente *anterior = NULL;
     Cliente *p = Lista;
@@ -156,14 +156,56 @@ void adiciona_cliente(Cliente **lista_clientes){
     printf("\nInforme os dados do cliente:\n");
 
     printf("Nome: ");
-    scanf("%s", nome);
+    scanf(" %[^\n]", nome);
 
     printf("\nTelefone: ");
     scanf("%d,", &telefone);
 
     printf("\nEndereco: ");
-    scanf("%s", endereco);
+    scanf(" %[^\n]", endereco);
     *lista_clientes = insere_ordenada(*lista_clientes, nome, telefone, endereco);
     
-    printf("Cliente inserido com sucesso:");
+    printf("Cliente inserido com sucesso:\n");
+}
+
+void remove_cliente(Cliente **lista_clientes){
+    char nome[50];
+
+    printf("\nNome do cliente que deseja remover: ");
+    scanf("%s", nome);
+
+    Cliente *cliente = Lista_busca(nome, *lista_clientes);
+
+    if (cliente == NULL){
+        printf("Cliente nao encontrado! ");
+        return;
+    }
+
+    *lista_clientes = lista_retira(*lista_clientes, cliente->nome);
+
+    printf("Cliente removido com sucesso! ");
+
+    free(cliente); 
+}
+
+void imprime_clientes(Cliente *Lista, const char *nome_arquivo){
+
+    FILE * arquivo = fopen(nome_arquivo, "a");
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo! ");
+        exit(1);
+    }
+
+    Cliente *p;
+    for (p = Lista; p !=NULL; p = p->proximo) {
+        
+        fprintf(arquivo, "\nDados do cliente:\n ");
+        fprintf(arquivo, "\n\tNome: %s\n", p->nome);
+        fprintf(arquivo, "\tTelefone: %d\n", p->telefone);
+        fprintf(arquivo, "\tEndereco: %s", p->endereco);
+        fprintf(arquivo, "\n");
+    }
+    
+    fclose(arquivo);
+    printf("Clientes impressos com sucesso no arquivo %s\n", nome_arquivo);
 }

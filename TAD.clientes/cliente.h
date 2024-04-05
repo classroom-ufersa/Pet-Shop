@@ -20,7 +20,7 @@ void lista_imprime(int elemento, Cliente *lista);
 Cliente * Lista_busca(char elemento[], Cliente * Lista);
 
 /* Função que retira um elemento da lista*/
-Cliente *lista_retira(Cliente *Lista, int v);
+Cliente *lista_retira(Cliente *Lista, char nome[]);
 
 /* Função que libera a memória alocada para a lista*/
 void libera_lista(Cliente * Lista);
@@ -30,5 +30,11 @@ Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char enderec
 
 /* Função que lê de um arquivo e armazena em uma lista encadeada*/
 Cliente *Cliente_ler_arquivo(char *nome_arquivo);
+
+void adiciona_cliente(Cliente **lista_clientes);
+
+void remove_cliente(Cliente **lista_clientes);
+
+void imprime_clientes(Cliente *Lista, const char *nome_arquivo);
 
 #endif
