@@ -33,6 +33,11 @@ int main(void){
 
         imprime_animais(animais, "animais.txt");
 
+        Animal *novo_animal = add_animal();
+        animais = lista_insere_ordenada(animais, novo_animal);   
+
+        imprime_animais(animais, "animais.txt");
+
 		break;
 
         case '4': 
@@ -54,7 +59,11 @@ int main(void){
 
 	    //imprime_animais(animais, "animais.txt");
         //funçao de Buscar Animal por Nome
+
+	    //imprime_animais(animais, "animais.txt");
+        //funçao de Buscar Animal por Nome
 		printf("Função indisponivel\n");
+
 
         break;
 

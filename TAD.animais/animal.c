@@ -48,16 +48,28 @@ Animal* add_animal(void) {
         exit(1);
     }
 
-    printf("---Informe os dados do animal---\n");
+    printf("Informe a quantidade de animais que deseja cadastrar:\n ");
+    int qtd_animais;
+    scanf("%d", &qtd_animais);
+    getchar(); 
 
-    printf("Digite o nome do animal:\n ");
-    scanf(" %[^\n]", pet->nome);
+    for(int i = 0; i < qtd_animais; i++){
+        printf("Informe os dados do animal %d:\n", i + 1);
 
-    printf("Digite a especie do animal:\n ");
-    scanf(" %[^\n]", pet->especie);
+        printf("Digite o nome do animal:\n ");
+        scanf(" %[^\n]", pet->nome);
 
-    printf("Digite o estado de saude do animal:\n ");
-    scanf(" %[^\n]", pet->saude);
+        printf("Digite a especie do animal:\n ");
+        scanf(" %[^\n]", pet->especie);
+
+        printf("Digite o estado de saude do animal:\n ");
+        scanf(" %[^\n]", pet->saude);
+
+        printf("Digite o ID de saude do animal:\n ");
+        scanf(" %d", &pet->id_animal);
+
+        printf("\nAnimal cadastrado com sucesso!\n");
+    }      
 
     return pet;
 }
@@ -78,7 +90,7 @@ Animal *cadastra_animal(int num_animal)
     }
     return pet;
 }
-
+/*
 Lista* lista_ler_arquivo() {
     FILE *arquivo;
     Animal *novo_animal;
@@ -108,7 +120,7 @@ Lista* lista_ler_arquivo() {
     free(novo_animal);
     fclose(arquivo);
     return l;
-}
+}*/
 
 void menu(){
     printf("\nMenu de Opcoes:\n");
@@ -144,4 +156,29 @@ char ler_opcao(char menor_valor, char maior_valor)
             printf("Opcao invalida. A opcao deve estar entre %c e %c: ", menor_valor, maior_valor);
         }
     } while (1);
+}
+
+void imprime_animais(Lista *animal, const char *nome_arquivo)
+{
+    FILE *arquivo = fopen(nome_arquivo, "a+");
+    if (arquivo == NULL)
+    {
+        printf("Erro ao abrir arquivo!");
+        exit(1);
+    }
+
+    fprintf(arquivo, "Animais cadastrados:\n");
+
+    while (animal != NULL)
+    {
+        fprintf(arquivo, "Nome: %s\n", animal->animal->nome);
+        fprintf(arquivo, "Especie: %s\n", animal->animal->especie);
+        fprintf(arquivo, "Saude: %s\n", animal->animal->saude);
+        fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
+
+        animal = animal->proximo;
+    }
+
+    fclose(arquivo);
+    printf("\nDados dos animais foram impressos no arquivo %s.\n", nome_arquivo);
 }
