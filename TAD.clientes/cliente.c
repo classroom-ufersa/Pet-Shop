@@ -1,156 +1,169 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "cliente.h"
-#include "../TAD.animais/animal.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-No *cria_no(Cliente cliente)
-{
-    //Aloca memoria para novo no da lista encadeada
-    No *Novo_no = (No *)malloc(sizeof(No));
+struct cliente{
 
-    if (Novo_no == NULL)
-    {
-        printf("Erro ao alocar memoria para novo no;");
-        exit(1);
-    }
-    //Inicializa campos do no com os dados fornecidos do cliente
-    Novo_no->cliente = cliente;
-    Novo_no->proximo = NULL; //Define próximo no como null, por se tratar do ultimo
-    return Novo_no;
+    char nome[50];
+    int telefone;
+    char endereco[50];
+    struct cliente *proximo;
+};
+
+Cliente* lista_clientes(void){
+
+    return NULL;
 }
 
-void insere_final(No **cabeca, Cliente cliente)
-{
-    //Cria um novo no, passando o cliente como parâmetro
-    No *Novo_no = cria_no(cliente);
+Cliente * Lista_insere(Cliente * Lista, char nome[], int telefone, char endereco[]){
 
-    //verifica se a lista esta vazia
-    if (*cabeca == NULL)
-    {
-
-        //Caso lista esteja vazia, novo no se torna o primeiro da lista
-        *cabeca = Novo_no;
+    Cliente *novo = (Cliente*) malloc(sizeof(Cliente));
+    
+    if (novo == NULL){
+        printf("Erro ao alocar memoria!");
+        exit(1);
     }
 
-    else
-    {
-        //Caso lista não esteja vazia, percorre a lista até encontrar último no
-        No *temp = *cabeca;
-        while (temp->proximo != NULL)
-        {
-            temp = temp->proximo;
+    strcpy(novo->nome, nome);
+    novo->telefone = telefone;
+    strcpy(novo->endereco, endereco);
+        return novo;
+}
+
+int lista_vazia_clientes(Cliente *lista){
+    return(lista == NULL);
+}
+
+void lista_imprime(int elemento, Cliente *lista){
+    Cliente *p;
+    for (p = lista; p != NULL; p = p->proximo){
+        printf(" Dados do cliente: ");
+
+        printf("\nNome: %s\n", p->nome);
+        printf("\nTelefone: %d\n", p->telefone);
+        printf("\nEndereco: %s\n", p->endereco);
+    }
+}
+
+Cliente * Lista_busca(char elemento[], Cliente * Lista){
+
+    Cliente * p;
+    for (p = Lista; p != NULL; p=p->proximo){
+        if (strcmp(p->nome, elemento)== 0)
+        return p;
+    }
+    return NULL;
+}
+
+Cliente *lista_retira(Cliente *Lista, int v){
+
+    Cliente *anterior = NULL;
+    Cliente *p = Lista;
+
+    while(p->nome){
+        if (p==NULL)    
+        return Lista;
+        
+        anterior = p;
+        p = p->proximo;
+    } 
+
+    if (anterior == NULL){
+
+    Lista = p->proximo;
+    }
+
+    else{
+
+    anterior->proximo =p->proximo;
+    }
+
+    free(p);
+    return Lista;
+}
+
+void libera_lista(Cliente * Lista){
+
+    Cliente *p = Lista;
+    Cliente *t;
+
+    while(p != NULL){
+        t = p->proximo;
+        free(p);
+        p = t;
+    }
+}
+
+Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[]){
+
+    Cliente *novo;
+    Cliente *anterior= NULL;
+    Cliente *p = Lista;
+
+    while(p != NULL && strcmp(p->nome, nome)){
+
+        anterior = p;
+        
+        p = p->proximo;
+    }
+
+    novo = (Cliente*) malloc(sizeof(Cliente));
+    strcpy (novo->nome, nome);   
+    novo->telefone = telefone;
+    strcpy(novo->endereco, endereco); 
+
+    if (anterior == NULL){
+        novo->proximo = Lista;
+        Lista = novo;
+    }
+
+    else {
+        novo->proximo = anterior->proximo;
+        anterior->proximo = novo;
+    }
+
+    return Lista;
+    }
+
+    Cliente *Cliente_ler_arquivo(char *nome_arquivo){
+
+        FILE *arquivo;
+        int valor;
+        Cliente *Lista = lista_clientes();
+        char nome[50];
+        int telefone;
+        char endereco[50];
+
+        arquivo = fopen(nome_arquivo, "r");
+        if (arquivo == NULL){
+            printf("Erro ao abrir arquivo!\n");
+            exit(1);
+        }
+       while (fscanf(arquivo, "%s %d %s", nome, &telefone, endereco) != EOF) {
+        Lista = insere_ordenada(Lista, nome, telefone, endereco);
         }
 
-        //Conecta novo no ao final da lista
-        temp->proximo = Novo_no;
-    }
-}
-
-No *insere_ordenada(No *lista, Cliente cliente) {
-    No *novo_no = cria_no(cliente);
-    No *atual = lista;
-    No *anterior = NULL;
-
-    // Caso a lista esteja vazia ou o novo cliente deva ser o primeiro
-    if (lista == NULL || strcmp(cliente.nome, lista->cliente.nome) < 0) {
-        novo_no->proximo = lista;
-        return novo_no;
+        fclose(arquivo);
+        return Lista;
     }
 
-    // Encontra o local correto para inserir o novo cliente
-    while (atual != NULL && strcmp(cliente.nome, atual->cliente.nome) > 0) {
-        anterior = atual;
-        atual = atual->proximo;
-    }
+void adiciona_cliente(Cliente **lista_clientes){
+    char nome[50];
+    int telefone;
+    char endereco[50];
 
-    // Insere o novo cliente na posição correta
-    novo_no->proximo = atual;
+    printf("\nInforme os dados do cliente:\n");
 
-    if(anterior != NULL){
+    printf("Nome: ");
+    scanf("%s", nome);
 
-        anterior->proximo = novo_no;    
-    }
+    printf("\nTelefone: ");
+    scanf("%d,", &telefone);
+
+    printf("\nEndereco: ");
+    scanf("%s", endereco);
+    *lista_clientes = insere_ordenada(*lista_clientes, nome, telefone, endereco);
     
-    else {
-        lista = novo_no;
-    }
-
-    return lista;
-}
-
-
-Cliente *cria_cliente(void)
-{
-
-    Cliente *consumidor = (Cliente *)malloc(sizeof(Cliente));
-
-    int num_animais;
-    int *ptr_animal;
-
-    if (consumidor == NULL)
-    {
-        printf("Erro ao alocar memória!");
-        exit(1);
-    }
-
-    printf("\nInforme os dados do cliente:\n ");
-
-    printf("\nNome do cliente: ");
-    scanf(" %[^\n]", consumidor->nome);
-
-    printf("\nInforme o numero de telefone do cliente: ");
-    scanf("%d", &consumidor->telefone);
-
-    printf("\nInforme o endereco do cliente: ");
-    scanf(" %[^\n]", consumidor->endereco);   
-
-    return consumidor;
-}
-
-Cliente *cadastra_cliente(int num_clientes)
-{
-    Cliente *consumidor = (Cliente *)malloc(num_clientes * sizeof(Cliente));
-
-    int num_animais;
-
-    if (consumidor == NULL)
-    {
-        printf("Erro ao alocar memoria! ");
-        exit(1);
-    }
-
-    for (int i = 0; i < num_clientes; i++)
-    {
-
-        printf("\n Cadastro do cliente\n");
-        consumidor[i] = *cria_cliente();
-    }
-
-    return consumidor;
-}
-
-void imprime_clientes(No *cabeca, const char *nome_arquivo)
-{
-    FILE *arquivo = fopen(nome_arquivo, "a+");
-    if (arquivo == NULL)
-    {
-        printf("Erro ao abrir arquivo!");
-        exit(1);
-    }
-
-    fprintf(arquivo, "\nClientes cadastrados:\n");
-
-    while (cabeca != NULL)
-    {
-        fprintf(arquivo, "\nCliente:\n");
-        fprintf(arquivo, "Nome: %s\n", cabeca->cliente.nome);
-        fprintf(arquivo, "Telefone: %d\n", cabeca->cliente.telefone);
-        fprintf(arquivo, "Endereco: %s\n", cabeca->cliente.endereco);
-
-        cabeca = cabeca->proximo;
-    }
-
-    fclose(arquivo);
-    printf("\nDados dos clientes foram impressos no arquivo %s.\n", nome_arquivo);
+    printf("Cliente inserido com sucesso:");
 }

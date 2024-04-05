@@ -1,49 +1,34 @@
 #ifndef CLIENTE_H
-#define CLIENTE_
-#include"../TAD.animais/animal.h"
+#define CLIENTE_H
 
-/* Definição da struct: cliente
-*/
-struct cliente
-{
-    char nome[80];
-    int telefone;
-    char endereco[80];
-    char animais[80];
-};
-
-/* Definição de um novo tipo: Cliente
-*/
+/*Definição de um novo tipo: Cliente*/
 typedef struct cliente Cliente;
 
-/* Definição de um novo tipo: No*/
-typedef struct no
-{
-    Cliente cliente;
-    struct no *proximo;
-}No;
+/* Função que cria uma lista vazia (NULLL)*/
+Cliente* lista_clientes(void);
 
-/*Função que aloca memória dinâmicamente para um struct Cliente,
-recebe os dados dos clientes via teclado e retorna um ponteiro para Cliente*/
-Cliente * cria_cliente(void);
+/*Função que insere um elemento no início da lista*/
+Cliente * Lista_insere(Cliente * Lista, char nome[], int telefone, char endereco[]);
 
-/* Função para criar um nó da lista encadeada
-*/
-No* cria_no(Cliente cliente);
+/* Função que verifica se a lista esta vazia*/
+int lista_vazia_clientes (Cliente *lista);
 
-/* Função que insere um nó no final da lista encadeada
-*/
-void insere_final(No** cabeca, Cliente cliente);
+/* Função que imprime os elementos da lista*/
+void lista_imprime(int elemento, Cliente *lista);
 
-No *insere_ordenada(No *lista, Cliente cliente);
+/* Função que busca um elemento na lista*/
+Cliente * Lista_busca(char elemento[], Cliente * Lista);
 
+/* Função que retira um elemento da lista*/
+Cliente *lista_retira(Cliente *Lista, int v);
 
-/* Função que realiza o cadastro de N clientes
-*/
-Cliente * cadastra_cliente(int num_clientes);
+/* Função que libera a memória alocada para a lista*/
+void libera_lista(Cliente * Lista);
 
-/* Função que abre um arquivo e imprime nele os dados dos clientes cadastradas
-*/
-void imprime_clientes(No *cabeca, const char *nome_arquivo);
+/* Função que insere de forma ordenada um elemento na lista*/
+Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[]);
+
+/* Função que lê de um arquivo e armazena em uma lista encadeada*/
+Cliente *Cliente_ler_arquivo(char *nome_arquivo);
 
 #endif
