@@ -95,36 +95,44 @@ void libera_lista(Cliente * Lista){
     }
 }
 
-Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[]){
-
+Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[]) {
     Cliente *novo;
-    Cliente *anterior= NULL;
+    Cliente *anterior = NULL;
     Cliente *p = Lista;
 
-    while(p != NULL && strcmp(p->nome, nome)){
+    // Criar o novo cliente
+    novo = (Cliente*) malloc(sizeof(Cliente));
+    if (novo == NULL) {
+        printf("[ERRO] Memoria insuficiente!");
+        exit(1);
+    }
 
+    // Preencher os dados do novo cliente
+    strcpy(novo->nome, nome);
+    novo->telefone = telefone;
+    strcpy(novo->endereco, endereco);
+    novo->proximo = NULL;
+
+    // Encontrar o ponto de inserção
+    while (p != NULL && strcmp(p->nome, nome) < 0) {
         anterior = p;
-        
         p = p->proximo;
     }
 
-    novo = (Cliente*) malloc(sizeof(Cliente));
-    strcpy (novo->nome, nome);   
-    novo->telefone = telefone;
-    strcpy(novo->endereco, endereco); 
-
-    if (anterior == NULL){
+    // Inserir o novo cliente na lista
+    if (anterior == NULL) {
         novo->proximo = Lista;
         Lista = novo;
-    }
-
-    else {
+    } else {
         novo->proximo = anterior->proximo;
         anterior->proximo = novo;
     }
 
     return Lista;
-    }
+}
+
+
+
 
     Cliente *Cliente_ler_arquivo(char *nome_arquivo){
 
@@ -190,7 +198,7 @@ void remove_cliente(Cliente **lista_clientes){
 
 void imprime_clientes(Cliente *Lista, const char *nome_arquivo){
 
-    FILE * arquivo = fopen(nome_arquivo, "a");
+    FILE * arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL){
         printf("Erro ao abrir arquivo! ");
         exit(1);
