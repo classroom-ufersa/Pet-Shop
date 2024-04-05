@@ -7,9 +7,8 @@
 int main(void){
     
     Cliente * lista_clientes = NULL;
-
-     char escolhaop;
-     int num_clientes;
+    Lista *animais = NULL;
+    char escolhaop;
 
     do {
         menu();
@@ -18,24 +17,23 @@ int main(void){
 
         switch (escolhaop) {
         case '1':
-        
-        printf("Quantos clientes deseja cadastrar? ");
-        scanf("%d", &num_clientes);
-        
-        for(int i = 0; i< num_clientes; i++){
-
-            adiciona_cliente(&lista_clientes);
-        }
-        imprime_clientes(lista_clientes, "clientes.txt");
-
+         //funçao de remover cliente
+		printf("Função indisponivel\n");
         break;
 
         case '2':
-        
-        remove_cliente(&lista_clientes);
+        //funçao de remover cliente
+		printf("Função indisponivel\n");
         break;
 
         case '3':
+        printf("\n Cadastro de animal\n");
+
+        Animal *novo_animal = add_animal();
+        animais = lista_insere_ordenada(animais, novo_animal);
+        printf("Animal adicionado com sucesso!\n");
+
+        imprime_animais(animais, "animais.txt");
 
 		break;
 
@@ -67,6 +65,7 @@ int main(void){
         break;
 
 	    case '8':   
+		//sair
 		printf("Obrigado e volte sempre!\n");
         break;
 

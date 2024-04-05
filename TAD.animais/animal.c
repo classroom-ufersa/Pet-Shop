@@ -65,8 +65,8 @@ Animal* add_animal(void) {
         printf("Digite o estado de saude do animal:\n ");
         scanf(" %[^\n]", pet->saude);
 
-        printf("Digite o ID de saude do animal:\n ");
-        scanf(" %d", &pet->id_animal);
+        //printf("Digite o ID de saude do animal:\n ");
+        //scanf(" %d", &pet->id_animal);
 
         printf("\nAnimal cadastrado com sucesso!\n");
     }      
@@ -174,7 +174,7 @@ void imprime_animais(Lista *animal, const char *nome_arquivo)
         fprintf(arquivo, "Nome: %s\n", animal->animal->nome);
         fprintf(arquivo, "Especie: %s\n", animal->animal->especie);
         fprintf(arquivo, "Saude: %s\n", animal->animal->saude);
-        fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
+        //fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
 
         animal = animal->proximo;
     }

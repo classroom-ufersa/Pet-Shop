@@ -5,7 +5,7 @@ typedef struct animal {
     char nome[80];
     char especie[80];
     char saude[80];
-    int id_animal;
+    //int id_animal;
 } Animal;
 
 typedef struct lista {
