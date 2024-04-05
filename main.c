@@ -10,12 +10,11 @@ int main(void){
     Lista *animais = NULL;
     char escolhaop;
     int num_clientes;
-
+    lista_clientes = Cliente_ler_arquivo("clientes.txt");
     do {
         menu();
         printf("Escolha uma opcao: ");
         escolhaop = ler_opcao('1', '8'); 
-
         switch (escolhaop) {
        case '1':
         
@@ -23,10 +22,9 @@ int main(void){
         scanf("%d", &num_clientes);
         
         for(int i = 0; i< num_clientes; i++){
-
-        adiciona_cliente(&lista_clientes);
+        adiciona_cliente(&lista_clientes, "clientes.txt");
         }
-        imprime_clientes(lista_clientes, "clientes.txt");
+
 
         break;
 
@@ -86,4 +84,4 @@ int main(void){
     } while (escolhaop != '8');
 
     return 0;
-}   
+}

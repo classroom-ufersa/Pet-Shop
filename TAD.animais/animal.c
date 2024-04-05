@@ -12,11 +12,6 @@ Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
     Lista *ant = NULL;
     Lista *p = l;
     
-    while(p != NULL && strcmp(p->animal->nome, novo_animal->nome) < 0){
-        ant = p;
-        p = p->proximo;
-    }
-    
     novo = (Lista*) malloc(sizeof(Lista));
     if (novo == NULL){
         printf("Erro, memoria insuficiente!");
@@ -24,6 +19,12 @@ Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
     }
     
     novo->animal = novo_animal;
+    novo->proximo = NULL;
+    
+    while(p != NULL && strcmp(p->animal->nome, novo_animal->nome) < 0){
+        ant = p;
+        p = p->proximo;
+    }
     
     if(ant == NULL){
         novo->proximo = l;
@@ -35,6 +36,7 @@ Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
     
     return l;
 }
+
 
 int lista_vazia(Lista *l){
     return (l == NULL);

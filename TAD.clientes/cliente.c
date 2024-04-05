@@ -18,7 +18,7 @@ Cliente* lista_clientes(void){
 
 Cliente * Lista_insere(Cliente * Lista, char nome[], int telefone, char endereco[]){
 
-    Cliente *novo = (Cliente*) malloc(sizeof(Cliente));
+    Cliente* novo = (Cliente*) malloc(sizeof(Cliente));
     
     if (novo == NULL){
         printf("Erro ao alocar memoria!");
@@ -132,31 +132,7 @@ Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char enderec
 }
 
 
-
-
-    Cliente *Cliente_ler_arquivo(char *nome_arquivo){
-
-        FILE *arquivo;
-        int valor;
-        Cliente *Lista = lista_clientes();
-        char nome[50];
-        int telefone;
-        char endereco[50];
-
-        arquivo = fopen(nome_arquivo, "r");
-        if (arquivo == NULL){
-            printf("Erro ao abrir arquivo!\n");
-            exit(1);
-        }
-       while (fscanf(arquivo, "%s %d %s", nome, &telefone, endereco) != EOF) {
-        Lista = insere_ordenada(Lista, nome, telefone, endereco);
-        }
-
-        fclose(arquivo);
-        return Lista;
-    }
-
-void adiciona_cliente(Cliente **lista_clientes){
+void adiciona_cliente(Cliente **lista_clientes, const char *nome_arquivo) {
     char nome[50];
     int telefone;
     char endereco[50];
@@ -167,13 +143,17 @@ void adiciona_cliente(Cliente **lista_clientes){
     scanf(" %[^\n]", nome);
 
     printf("\nTelefone: ");
-    scanf("%d,", &telefone);
+    scanf("%d", &telefone);
 
     printf("\nEndereco: ");
     scanf(" %[^\n]", endereco);
+
     *lista_clientes = insere_ordenada(*lista_clientes, nome, telefone, endereco);
-    
-    printf("Cliente inserido com sucesso:\n");
+
+    // Após adicionar o novo cliente à lista, sobrescrever completamente o arquivo com os dados atualizados
+    imprime_clientes(*lista_clientes, nome_arquivo);
+
+    printf("Cliente inserido com sucesso.\n");
 }
 
 void remove_cliente(Cliente **lista_clientes){
@@ -196,24 +176,47 @@ void remove_cliente(Cliente **lista_clientes){
     free(cliente); 
 }
 
-void imprime_clientes(Cliente *Lista, const char *nome_arquivo){
+Cliente* Cliente_ler_arquivo(char *nome_arquivo) {
+    FILE *arquivo;
+    Cliente *Lista = NULL; // Inicializa a lista de clientes como vazia
 
-    FILE * arquivo = fopen(nome_arquivo, "w");
-    if (arquivo == NULL){
-        printf("Erro ao abrir arquivo! ");
+    arquivo = fopen(nome_arquivo, "r");
+    if (arquivo == NULL) {
+        arquivo = fopen(nome_arquivo, "w");
+        if (arquivo == NULL) {
+            printf("Erro ao criar o arquivo %s\n", nome_arquivo);
+            exit(1);
+        }
+        printf("Arquivo criado!\n");
+        fclose(arquivo); // Fecha o arquivo após a criação
+        return NULL; // Retorna uma lista vazia, já que o arquivo está vazio
+    }
+
+    char nome[50];
+    int telefone;
+    char endereco[50];
+
+    while (fscanf(arquivo, " %49s\t %d\t %49s\n", nome, &telefone, endereco) == 3) {
+        // Insere o cliente na lista mantendo a ordenação alfabética
+        Lista = insere_ordenada(Lista, nome, telefone, endereco);
+    }
+
+    fclose(arquivo);
+    return Lista;
+}
+
+// Função para imprimir os clientes no arquivo no formato especificado
+void imprime_clientes(Cliente *lista, const char *nome_arquivo) {
+    FILE *arquivo = fopen(nome_arquivo, "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", nome_arquivo);
         exit(1);
     }
 
-    Cliente *p;
-    for (p = Lista; p !=NULL; p = p->proximo) {
-        
-        fprintf(arquivo, "\nDados do cliente:\n ");
-        fprintf(arquivo, "\n\tNome: %s\n", p->nome);
-        fprintf(arquivo, "\tTelefone: %d\n", p->telefone);
-        fprintf(arquivo, "\tEndereco: %s", p->endereco);
-        fprintf(arquivo, "\n");
+    for (Cliente *p = lista; p != NULL; p = p->proximo) {
+        fprintf(arquivo, "%s \t %d \t %s\n", p->nome, p->telefone, p->endereco);
     }
-    
+
     fclose(arquivo);
     printf("Clientes impressos com sucesso no arquivo %s\n", nome_arquivo);
 }

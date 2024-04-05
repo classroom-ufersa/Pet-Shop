@@ -31,7 +31,7 @@ Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char enderec
 /* Função que lê de um arquivo e armazena em uma lista encadeada*/
 Cliente *Cliente_ler_arquivo(char *nome_arquivo);
 
-void adiciona_cliente(Cliente **lista_clientes);
+void adiciona_cliente(Cliente **lista_clientes, const char *nome_arquivo);
 
 void remove_cliente(Cliente **lista_clientes);
 
