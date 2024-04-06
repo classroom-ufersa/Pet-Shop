@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../TAD.clientes/cliente.h"
 
 Lista* lista_animais(void) {
     return NULL;
@@ -41,7 +42,7 @@ int lista_vazia(Lista *l){
     return (l == NULL);
 }
 
-Animal* add_animal(void) {
+Animal* add_animal(Cliente *lista_clientes) {
     Animal *pet = (Animal *)malloc(sizeof(Animal));
 
     if (pet == NULL) {
@@ -49,13 +50,7 @@ Animal* add_animal(void) {
         exit(1);
     }
 
-    printf("Informe a quantidade de animais que deseja cadastrar:\n ");
-    int qtd_animais;
-    scanf("%d", &qtd_animais);
-    getchar(); 
-
-    for(int i = 0; i < qtd_animais; i++){
-        printf("Informe os dados do animal %d:\n", i + 1);
+        printf("Informe os dados do animal:\n");
 
         printf("Digite o nome do animal:\n ");
         scanf(" %[^\n]", pet->nome);
@@ -66,13 +61,28 @@ Animal* add_animal(void) {
         printf("Digite o estado de saude do animal:\n ");
         scanf(" %[^\n]", pet->saude);
 
+        printf("Nome do cliente ao qual deve-se associar este animal: ");
+        char nome_cliente[50];
+        scanf(" %[^\n]", nome_cliente);
+
+        Cliente* cliente_associado = Lista_busca(nome_cliente, lista_clientes);
+        if (cliente_associado == NULL){
+            printf("Cliente nao encontrado!" );
+            return NULL;
+        }
+
+        else{
+
+            pet->cliente_associado = cliente_associado;
+
         printf("\nAnimal cadastrado com sucesso!\n");
+
+        }
+
+        return pet;
     }      
 
-    return pet;
-}
-
-Animal *cadastra_animal(int num_animal)
+Animal *cadastra_animal(int num_animal, Cliente *lista_clientes)
 {
     Animal *pet = (Animal *)malloc(num_animal * sizeof(Animal));
 
@@ -84,7 +94,7 @@ Animal *cadastra_animal(int num_animal)
 
     for (int i = 0; i < num_animal; i++) {
         printf("\n Cadastro do animal\n");
-        pet[i] = *add_animal();
+        pet[i] = *add_animal(lista_clientes);
     }
     return pet;
 }
@@ -125,8 +135,7 @@ char ler_opcao(char menor_valor, char maior_valor)
     } while (1);
 }
 
-void imprime_animais(Lista *animal, const char *nome_arquivo)
-{
+void imprime_animais(Lista *animal, const char *nome_arquivo){
     FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL)
     {

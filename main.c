@@ -10,7 +10,9 @@ int main(void){
     Lista *animais = NULL;
     char escolhaop;
     int num_clientes;
+
     lista_clientes = Cliente_ler_arquivo("clientes.txt");
+    
     do {
         menu();
         printf("Escolha uma opcao: ");
@@ -35,14 +37,9 @@ int main(void){
 
         case '3':
         printf("\n Cadastro de animal\n");
-
-        Animal *novo_animal = add_animal();
+        Animal *novo_animal = cadastra_animal(1, lista_clientes);
         animais = lista_insere_ordenada(animais, novo_animal);
-        printf("Animal adicionado com sucesso!\n");
-
-        imprime_animais(animais, "animais.txt");
-
-		break;
+        break;
 
         case '4': 
 		remove_animal(&animais);
