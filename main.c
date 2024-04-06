@@ -40,6 +40,7 @@ int main(void){
         printf("\n Cadastro de animal\n");
         Animal *novo_animal = cadastra_animal(1, lista_clientes);
         animais = lista_insere_ordenada(animais, novo_animal);
+        imprime_animais(animais, "animais.txt");
         break;
 
         case '4': 
@@ -53,8 +54,20 @@ int main(void){
         break;
 
 	    case '6':   
-		//funçao de Buscar Animal por Nome
-		printf("Função indisponivel\n");
+		printf("Digite o nome do animal que deseja buscar: ");
+        char nome_animal[80];
+        scanf(" %[^\n]", nome_animal);
+
+        Lista *animal_encontrado = lista_busca_animal(nome_animal, animais);
+
+        if (animal_encontrado != NULL) {
+            printf("Animal encontrado:\n");
+            printf("Nome: %s\n", animal_encontrado->animal->nome);
+            printf("Especie: %s\n", animal_encontrado->animal->especie);
+            printf("Saude: %s\n", animal_encontrado->animal->saude);
+        } else {
+        printf("Animal nao encontrado.\n");
+        }
         break;
 
 	    case '7': 
