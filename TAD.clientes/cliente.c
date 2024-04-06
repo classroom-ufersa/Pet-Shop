@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-struct cliente{
+struct cliente
+{
 
     char nome[50];
     int telefone;
@@ -11,16 +13,19 @@ struct cliente{
     struct cliente *proximo;
 };
 
-Cliente* lista_clientes(void){
+Cliente *lista_clientes(void)
+{
 
     return NULL;
 }
 
-Cliente * Lista_insere(Cliente * Lista, char nome[], int telefone, char endereco[]){
+Cliente *Lista_insere(Cliente *Lista, char nome[], int telefone, char endereco[])
+{
 
-    Cliente* novo = (Cliente*) malloc(sizeof(Cliente));
-    
-    if (novo == NULL){
+    Cliente *novo = (Cliente *)malloc(sizeof(Cliente));
+
+    if (novo == NULL)
+    {
         printf("Erro ao alocar memoria!");
         exit(1);
     }
@@ -28,16 +33,19 @@ Cliente * Lista_insere(Cliente * Lista, char nome[], int telefone, char endereco
     strcpy(novo->nome, nome);
     novo->telefone = telefone;
     strcpy(novo->endereco, endereco);
-        return novo;
+    return novo;
 }
 
-int lista_vazia_clientes(Cliente *lista){
-    return(lista == NULL);
+int lista_vazia_clientes(Cliente *lista)
+{
+    return (lista == NULL);
 }
 
-void lista_imprime(int elemento, Cliente *lista){
+void lista_imprime(int elemento, Cliente *lista)
+{
     Cliente *p;
-    for (p = lista; p != NULL; p = p->proximo){
+    for (p = lista; p != NULL; p = p->proximo)
+    {
         printf(" Dados do cliente: ");
 
         printf("\nNome: %s\n", p->nome);
@@ -46,67 +54,79 @@ void lista_imprime(int elemento, Cliente *lista){
     }
 }
 
-Cliente * Lista_busca(char elemento[], Cliente * Lista){
+Cliente *Lista_busca(char elemento[], Cliente *Lista)
+{
 
-    Cliente * p;
-    for (p = Lista; p != NULL; p=p->proximo){
-        if (strcmp(p->nome, elemento)== 0)
-        return p;
+    Cliente *p;
+    for (p = Lista; p != NULL; p = p->proximo)
+    {
+        if (strcmp(p->nome, elemento) == 0)
+            return p;
     }
     return NULL;
 }
 
-Cliente *lista_retira(Cliente *Lista, char nome[]) {
+Cliente *lista_retira(Cliente *Lista, char nome[])
+{
     Cliente *anterior = NULL;
     Cliente *atual = Lista;
 
     // Procura pelo cliente na lista
-    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+    while (atual != NULL && strcmp(atual->nome, nome) != 0)
+    {
         anterior = atual;
         atual = atual->proximo;
-    } 
+    }
 
     // Se não encontrar o cliente, retorna a lista sem alterações
-    if (atual == NULL) { 
-        printf("Cliente não encontrado!\n"); 
-        return Lista; 
+    if (atual == NULL)
+    {
+        printf("Cliente não encontrado!\n");
+        return Lista;
     }
 
     // Remove o cliente da lista
-    if (anterior == NULL) {
+    if (anterior == NULL)
+    {
         Lista = atual->proximo;
-    } else {
+    }
+    else
+    {
         anterior->proximo = atual->proximo;
     }
 
     // Libera a memória alocada para o cliente removido
     free(atual);
-    
+
     printf("Cliente removido com sucesso!\n");
-    
+
     return Lista;
 }
 
-void libera_lista(Cliente * Lista){
+void libera_lista(Cliente *Lista)
+{
 
     Cliente *p = Lista;
     Cliente *t;
 
-    while(p != NULL){
+    while (p != NULL)
+    {
         t = p->proximo;
         free(p);
         p = t;
     }
 }
 
-Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[]) {
+Cliente *insere_ordenada(Cliente *Lista, char nome[], int telefone, char endereco[])
+{
     Cliente *novo;
     Cliente *anterior = NULL;
     Cliente *p = Lista;
 
     // Criar o novo cliente
-    novo = (Cliente*) malloc(sizeof(Cliente));
-    if (novo == NULL) {
+    novo = (Cliente *)malloc(sizeof(Cliente));
+    if (novo == NULL)
+    {
         printf("[ERRO] Memoria insuficiente!");
         exit(1);
     }
@@ -118,16 +138,20 @@ Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char enderec
     novo->proximo = NULL;
 
     // Encontrar o ponto de inserção
-    while (p != NULL && strcmp(p->nome, nome) < 0) {
+    while (p != NULL && strcmp(p->nome, nome) < 0)
+    {
         anterior = p;
         p = p->proximo;
     }
 
     // Inserir o novo cliente na lista
-    if (anterior == NULL) {
+    if (anterior == NULL)
+    {
         novo->proximo = Lista;
         Lista = novo;
-    } else {
+    }
+    else
+    {
         novo->proximo = anterior->proximo;
         anterior->proximo = novo;
     }
@@ -135,32 +159,85 @@ Cliente* insere_ordenada(Cliente *Lista, char nome[], int telefone, char enderec
     return Lista;
 }
 
-
-void adiciona_cliente(Cliente **lista_clientes, const char *nome_arquivo) {
+void adiciona_cliente(Cliente **lista_clientes, const char *nome_arquivo)
+{
     char nome[50];
+    char telefone_str[20];
     int telefone;
     char endereco[50];
 
     printf("\nInforme os dados do cliente:\n");
 
     printf("Nome: ");
-    scanf(" %[^\n]", nome);
+    int valido = 1;
+    do
+    {
+        scanf(" %[^\n]", nome);
+        valido = 1;
+        for (int i = 0; nome[i] != '\0'; i++)
+        {
 
-    printf("\nTelefone: ");
-    scanf("%d", &telefone);
+            if (!isalpha(nome[i]) && nome[i] != ' ' && nome[i] != '\'')
+            {
+                valido = 0;
+
+                printf("Invalido, tente novamente\n");
+                printf("\nNome: ");
+                break;
+            }
+        }
+    } while (!valido);
+
+   printf("\nTelefone: ");
+    int valido_telefone = 1;
+    do
+    {
+        scanf(" %[^\n]", telefone_str);
+        valido_telefone = 1;
+        // Verifica se todos os caracteres da string são dígitos
+        for (int i = 0; telefone_str[i] != '\0'; i++)
+        {
+            if (!isdigit(telefone_str[i]))
+            {
+                valido_telefone = 0;
+                printf("Telefone invalido, tente novamente:\n");
+                printf("\nTelefone: ");
+                break;
+            }
+        }
+    } while (!valido_telefone);
+    
+    // Converte a string do telefone para um inteiro
+    telefone = atoi(telefone_str);
+
 
     printf("\nEndereco: ");
-    scanf(" %[^\n]", endereco);
+    int valido_endereco = 1;
+    do
+    {
+        scanf(" %[^\n]", endereco);
+        valido_endereco = 1;
+        for (int i = 0; endereco[i] != '\0'; i++)
+        {
+            if (!isalpha(endereco[i]) && endereco[i] != ' ' && endereco[i] != '\'')
+            {
+                valido_endereco = 0;
+                printf("Invalido, tente novamente:\n");
+                printf("\nEndereco: ");
+                break;
+            }
+        }
+    } while (!valido_endereco);
 
     *lista_clientes = insere_ordenada(*lista_clientes, nome, telefone, endereco);
 
-    // Após adicionar o novo cliente à lista, sobrescrever completamente o arquivo com os dados atualizados
     imprime_clientes(*lista_clientes, nome_arquivo);
 
     printf("Cliente inserido com sucesso.\n");
 }
 
-void remove_cliente(Cliente **lista_clientes){
+void remove_cliente(Cliente **lista_clientes)
+{
     char nome[50];
 
     printf("\nNome do cliente que deseja remover: ");
@@ -168,48 +245,54 @@ void remove_cliente(Cliente **lista_clientes){
 
     Cliente *cliente = Lista_busca(nome, *lista_clientes);
 
-    if (cliente == NULL){
+    if (cliente == NULL)
+    {
         printf("Cliente nao encontrado! ");
         return;
     }
 
-    else{
+    else
+    {
 
-    *lista_clientes = lista_retira(*lista_clientes, cliente->nome);
+        *lista_clientes = lista_retira(*lista_clientes, cliente->nome);
 
-    imprime_clientes(*lista_clientes, "clientes.txt");
+        imprime_clientes(*lista_clientes, "clientes.txt");
 
-    printf("Cliente removido com sucesso! ");
+        printf("Cliente removido com sucesso! ");
 
-    return;
+        return;
     }
 
-    free(cliente); 
+    free(cliente);
 
     return;
 }
 
-Cliente* Cliente_ler_arquivo(char *nome_arquivo) {
+Cliente *Cliente_ler_arquivo(char *nome_arquivo)
+{
     FILE *arquivo;
     Cliente *Lista = NULL; // Inicializa a lista de clientes como vazia
 
     arquivo = fopen(nome_arquivo, "r");
-    if (arquivo == NULL) {
+    if (arquivo == NULL)
+    {
         arquivo = fopen(nome_arquivo, "w");
-        if (arquivo == NULL) {
+        if (arquivo == NULL)
+        {
             printf("Erro ao criar o arquivo %s\n", nome_arquivo);
             exit(1);
         }
         printf("Arquivo criado!\n");
         fclose(arquivo); // Fecha o arquivo após a criação
-        return NULL; // Retorna uma lista vazia, já que o arquivo está vazio
+        return NULL;     // Retorna uma lista vazia, já que o arquivo está vazio
     }
 
     char nome[50];
     int telefone;
     char endereco[50];
 
-    while (fscanf(arquivo, " %49s\t %d\t %49s\n", nome, &telefone, endereco) == 3) {
+    while (fscanf(arquivo, " %49s\t %d\t %49s\n", nome, &telefone, endereco) == 3)
+    {
         // Insere o cliente na lista mantendo a ordenação alfabética
         Lista = insere_ordenada(Lista, nome, telefone, endereco);
     }
@@ -219,14 +302,17 @@ Cliente* Cliente_ler_arquivo(char *nome_arquivo) {
 }
 
 // Função para imprimir os clientes no arquivo no formato especificado
-void imprime_clientes(Cliente *lista, const char *nome_arquivo) {
+void imprime_clientes(Cliente *lista, const char *nome_arquivo)
+{
     FILE *arquivo = fopen(nome_arquivo, "w");
-    if (arquivo == NULL) {
+    if (arquivo == NULL)
+    {
         printf("Erro ao abrir o arquivo %s\n", nome_arquivo);
         exit(1);
     }
 
-    for (Cliente *p = lista; p != NULL; p = p->proximo) {
+    for (Cliente *p = lista; p != NULL; p = p->proximo)
+    {
         fprintf(arquivo, "%s \t %d \t %s\n", p->nome, p->telefone, p->endereco);
     }
 
@@ -234,9 +320,11 @@ void imprime_clientes(Cliente *lista, const char *nome_arquivo) {
     printf("Clientes impressos com sucesso no arquivo %s\n", nome_arquivo);
 }
 
-void listar_clientes(const char *nome_arquivo) {
+void listar_clientes(const char *nome_arquivo)
+{
     FILE *arquivo = fopen(nome_arquivo, "r");
-    if (arquivo == NULL) {
+    if (arquivo == NULL)
+    {
         printf("Erro ao abrir o arquivo %s\n", nome_arquivo);
         return;
     }
@@ -248,7 +336,8 @@ void listar_clientes(const char *nome_arquivo) {
     int telefone;
     char endereco[50];
 
-    while (fscanf(arquivo, " %49s %d %49s", nome, &telefone, endereco) == 3) {
+    while (fscanf(arquivo, " %49s %d %49s", nome, &telefone, endereco) == 3)
+    {
         printf("Nome: %s\n", nome);
         printf("Telefone: %d\n", telefone);
         printf("Endereco: %s\n", endereco);
