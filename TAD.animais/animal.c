@@ -331,36 +331,50 @@ void imprime_animais_editado(Lista *lista)
 }
 
 void atualiza_cliente_arquivo(const char *nome_cliente, int id_animal, const char *nome_animal, const char *especie, const char *saude) {
-    FILE *arquivo = fopen("clientes.txt", "a+");
-    if (arquivo == NULL) {
+    FILE *arquivo_entrada = fopen("clientes.txt", "r");
+    if (arquivo_entrada == NULL) {
         printf("Erro ao abrir o arquivo clientes.txt\n");
         return;
     }
 
+    FILE *arquivo_saida = fopen("clientes_temp.txt", "w");
+    if (arquivo_saida == NULL) {
+        printf("Erro ao criar o arquivo temporário clientes_temp.txt\n");
+        fclose(arquivo_entrada);
+        return;
+    }
+
     char linha[1000];
-    char temp[1000];
     int encontrado = 0;
 
     // Percorre o arquivo linha por linha
-    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+    while (fgets(linha, sizeof(linha), arquivo_entrada) != NULL) {
         // Verifica se a linha contém o nome do cliente
         if (strstr(linha, nome_cliente) != NULL) {
             // Adiciona as informações do animal associado à linha do cliente
-            sprintf(temp, "%s Animal: %s/ Especie: %s/ Saude: %s/ ID Animal: %d\n", linha, nome_animal, especie, saude, id_animal);
+            fprintf(arquivo_saida, "%s Animal: %s/ Especie: %s/ Saude: %s/ ID Animal: %d\n", linha, nome_animal, especie, saude, id_animal);
             encontrado = 1;
-            break;
+        } else {
+            // Escreve a linha original no arquivo temporário
+            fprintf(arquivo_saida, "%s", linha);
         }
+    }
+
+    fclose(arquivo_entrada);
+    fclose(arquivo_saida);
+
+    // Remove o arquivo original
+    remove("clientes.txt");
+
+    // Renomeia o arquivo temporário para o nome original
+    if (rename("clientes_temp.txt", "clientes.txt") != 0) {
+        printf("Erro ao renomear o arquivo temporário\n");
+        return;
     }
 
     if (!encontrado) {
         printf("Cliente não encontrado no arquivo clientes.txt\n");
     } else {
-        // Volta para o início do arquivo
-        rewind(arquivo);
-        // Substitui a linha antiga pela nova no arquivo
-        fprintf(arquivo, "%s", temp);
         printf("Associação entre cliente e animal atualizada com sucesso no arquivo clientes.txt\n");
     }
-
-    fclose(arquivo);
 }
