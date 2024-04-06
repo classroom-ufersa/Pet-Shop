@@ -45,6 +45,6 @@ void menu();
 
 char ler_opcao(char menor_valor, char maior_valor);
 
-void atualiza_clientes_txt(Cliente *lista_clientes, Lista *lista_animais, const char *nome_arquivo);
+void atualiza_cliente_arquivo(const char *nome_cliente, int id_animal, const char *nome_animal, const char *especie, const char *saude);
 
 #endif

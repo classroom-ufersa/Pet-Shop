@@ -151,17 +151,17 @@ Animal *add_animal(Cliente *lista_clientes)
 
     else
     {
-
         pet->cliente_associado = cliente_associado;
-
-        printf("Animal cadastrado com sucesso!\n");
-    }
+        printf("Cliente cadastrado com sucesso! ");
+        atualiza_cliente_arquivo(nome_cliente, pet->id_animal, pet->nome, pet->especie, pet->saude);
 
     return pet;
 }
 
-Animal *cadastra_animal(int num_animal, Cliente *lista_clientes)
-{
+}
+    
+Animal *cadastra_animal(int num_animal, Cliente *lista_clientes){
+
     Animal *pet = (Animal *)malloc(num_animal * sizeof(Animal));
 
     if (pet == NULL)
@@ -328,4 +328,39 @@ void imprime_animais_editado(Lista *lista)
         printf("Nome: %s, Especie: %s, Saude: %s, ID: %d\n", lista->animal->nome, lista->animal->especie, lista->animal->saude, lista->animal->id_animal);
         lista = lista->proximo;
     }
+}
+
+void atualiza_cliente_arquivo(const char *nome_cliente, int id_animal, const char *nome_animal, const char *especie, const char *saude) {
+    FILE *arquivo = fopen("clientes.txt", "a+");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo clientes.txt\n");
+        return;
+    }
+
+    char linha[1000];
+    char temp[1000];
+    int encontrado = 0;
+
+    // Percorre o arquivo linha por linha
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        // Verifica se a linha contém o nome do cliente
+        if (strstr(linha, nome_cliente) != NULL) {
+            // Adiciona as informações do animal associado à linha do cliente
+            sprintf(temp, "%s Animal: %s/ Especie: %s/ Saude: %s/ ID Animal: %d\n", linha, nome_animal, especie, saude, id_animal);
+            encontrado = 1;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Cliente não encontrado no arquivo clientes.txt\n");
+    } else {
+        // Volta para o início do arquivo
+        rewind(arquivo);
+        // Substitui a linha antiga pela nova no arquivo
+        fprintf(arquivo, "%s", temp);
+        printf("Associação entre cliente e animal atualizada com sucesso no arquivo clientes.txt\n");
+    }
+
+    fclose(arquivo);
 }
