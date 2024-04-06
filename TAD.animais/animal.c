@@ -4,6 +4,11 @@
 #include <string.h>
 #include "../TAD.clientes/cliente.h"
 
+void limpabuffer()
+{
+    fflush(stdin);
+}
+
 Lista* lista_animais(void) {
     return NULL;
 }
@@ -54,7 +59,7 @@ Animal* add_animal(Cliente *lista_clientes) {
         printf("\n");
         printf("Digite o nome do animal:\n ");
         scanf(" %[^\n]", pet->nome);
-
+       
         printf("Digite a especie do animal:\n ");
         scanf(" %[^\n]", pet->especie);
 
@@ -138,7 +143,7 @@ char ler_opcao(char menor_valor, char maior_valor)
 }
 
 void imprime_animais(Lista *animal, const char *nome_arquivo){
-    FILE *arquivo = fopen(nome_arquivo, "w");
+    FILE *arquivo = fopen(nome_arquivo, "a");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir arquivo!");

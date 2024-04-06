@@ -26,6 +26,7 @@ int main(void){
         
         for(int i = 0; i< num_clientes; i++){
         adiciona_cliente(&lista_clientes, "clientes.txt");
+        limpabuffer();
         }
 
 
@@ -39,6 +40,7 @@ int main(void){
         case '3':
         printf("---Cadastro de animal---\n");
         Animal *novo_animal = cadastra_animal(1, lista_clientes);
+        limpabuffer();
         animais = lista_insere_ordenada(animais, novo_animal);
         imprime_animais(animais, "animais.txt");
         break;
@@ -49,10 +51,11 @@ int main(void){
         break;
 
 	    case '5':
-        printf("Digite o ID do animal que deseja editar: \t");
+        printf("Digite o ID do animal que deseja editar: ");
         int id_alvo;
         scanf("%d", &id_alvo);
         lista_edita_animal(animais, id_alvo);
+        limpabuffer();
         imprime_animais_editado(animais);
         imprime_animais(animais, "animais.txt");
         break;

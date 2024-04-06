@@ -17,6 +17,8 @@ typedef struct lista {
     struct lista *proximo;
 } Lista;
 
+void limpabuffer();
+
 Animal* add_animal(Cliente *lista_clientes);
 
 Lista *lista_retira_animal(Lista*l, char nome[]); // Corrigido o tipo do parâmetro
