@@ -56,30 +56,34 @@ Cliente * Lista_busca(char elemento[], Cliente * Lista){
     return NULL;
 }
 
-Cliente *lista_retira(Cliente *Lista, char nome[]){
-
+Cliente *lista_retira(Cliente *Lista, char nome[]) {
     Cliente *anterior = NULL;
-    Cliente *p = Lista;
+    Cliente *atual = Lista;
 
-    while(p->nome){
-        if (p==NULL)    
-        return Lista;
-        
-        anterior = p;
-        p = p->proximo;
+    // Procura pelo cliente na lista
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        anterior = atual;
+        atual = atual->proximo;
     } 
 
-    if (anterior == NULL){
-
-    Lista = p->proximo;
+    // Se não encontrar o cliente, retorna a lista sem alterações
+    if (atual == NULL) { 
+        printf("Cliente não encontrado!\n"); 
+        return Lista; 
     }
 
-    else{
-
-    anterior->proximo =p->proximo;
+    // Remove o cliente da lista
+    if (anterior == NULL) {
+        Lista = atual->proximo;
+    } else {
+        anterior->proximo = atual->proximo;
     }
 
-    free(p);
+    // Libera a memória alocada para o cliente removido
+    free(atual);
+    
+    printf("Cliente removido com sucesso!\n");
+    
     return Lista;
 }
 
@@ -160,7 +164,7 @@ void remove_cliente(Cliente **lista_clientes){
     char nome[50];
 
     printf("\nNome do cliente que deseja remover: ");
-    scanf("%s", nome);
+    scanf(" %[^\n]", nome);
 
     Cliente *cliente = Lista_busca(nome, *lista_clientes);
 
@@ -169,11 +173,20 @@ void remove_cliente(Cliente **lista_clientes){
         return;
     }
 
+    else{
+
     *lista_clientes = lista_retira(*lista_clientes, cliente->nome);
+
+    imprime_clientes(*lista_clientes, "clientes.txt");
 
     printf("Cliente removido com sucesso! ");
 
+    return;
+    }
+
     free(cliente); 
+
+    return;
 }
 
 Cliente* Cliente_ler_arquivo(char *nome_arquivo) {
