@@ -37,7 +37,6 @@ Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
     return l;
 }
 
-
 int lista_vazia(Lista *l){
     return (l == NULL);
 }
@@ -67,9 +66,6 @@ Animal* add_animal(void) {
         printf("Digite o estado de saude do animal:\n ");
         scanf(" %[^\n]", pet->saude);
 
-        //printf("Digite o ID de saude do animal:\n ");
-        //scanf(" %d", &pet->id_animal);
-
         printf("\nAnimal cadastrado com sucesso!\n");
     }      
 
@@ -92,37 +88,6 @@ Animal *cadastra_animal(int num_animal)
     }
     return pet;
 }
-/*
-Lista* lista_ler_arquivo() {
-    FILE *arquivo;
-    Animal *novo_animal;
-    Lista *l = lista_animais();
-
-    arquivo = fopen("pet_shop.txt", "r");
-    if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
-        exit(1);
-    }
-
-    novo_animal = (Animal *)malloc(sizeof(Animal));
-    if (novo_animal == NULL) {
-        printf("Erro ao alocar memória!\n");
-        exit(1);
-    }
-
-    while (fscanf(arquivo, "%s %s %s %d", novo_animal->nome, novo_animal->especie, novo_animal->saude, &novo_animal->id_animal) != EOF) {
-        l = lista_insere_ordenada(l, novo_animal);
-        novo_animal = (Animal *)malloc(sizeof(Animal));
-        if (novo_animal == NULL) {
-            printf("Erro ao alocar memória!\n");
-            exit(1);
-        }
-    }
-
-    free(novo_animal);
-    fclose(arquivo);
-    return l;
-}*/
 
 void menu(){
     printf("\nMenu de Opcoes:\n");
@@ -162,7 +127,7 @@ char ler_opcao(char menor_valor, char maior_valor)
 
 void imprime_animais(Lista *animal, const char *nome_arquivo)
 {
-    FILE *arquivo = fopen(nome_arquivo, "a+");
+    FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo == NULL)
     {
         printf("Erro ao abrir arquivo!");
@@ -176,11 +141,61 @@ void imprime_animais(Lista *animal, const char *nome_arquivo)
         fprintf(arquivo, "Nome: %s\n", animal->animal->nome);
         fprintf(arquivo, "Especie: %s\n", animal->animal->especie);
         fprintf(arquivo, "Saude: %s\n", animal->animal->saude);
-        //fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
 
         animal = animal->proximo;
     }
 
     fclose(arquivo);
     printf("\nDados dos animais foram impressos no arquivo %s.\n", nome_arquivo);
+}
+
+void remove_animal(Lista **lista_animal){
+    char nome[50];
+
+    printf("\nNome do animal que deseja remover: ");
+    scanf("%s", nome);
+
+    // Busca o animal na lista
+    Lista *animal = lista_busca_animal(nome, *lista_animal);
+
+    if (animal == NULL){
+        printf("Animal nao encontrado!\n");
+        return;
+    }
+
+    // Remove o animal da lista
+    *lista_animal = lista_retira_animal(*lista_animal, nome);
+
+    printf("Animal removido com sucesso!\n");
+}
+
+Lista *lista_retira_animal(Lista*l, char nome[]){ // Corrigido o tipo do parâmetro
+    Lista* ant = NULL; /* ponteiro para elemento anterior */
+    Lista* p = l; /* ponteiro para percorrer a lista*/
+    /* procura elemento na lista, guardando anterior */
+    while(p != NULL && strcmp(p->animal->nome, nome) != 0){
+        ant = p;
+        p = p->proximo;
+    }
+    
+    /* retira elemento */
+    if (p == NULL)
+        return l; /* não achou: retorna lista original */
+    if (ant == NULL)
+        l = p->proximo; /* retira elemento do inicio */
+    else
+        ant->proximo = p->proximo; /* retira elemento do meio da lista */
+    free(p);
+    return l;
+}
+
+Lista *lista_busca_animal(char nome[], Lista *l) {
+    Lista *p;
+
+    for(p = l; p != NULL; p = p->proximo) {
+        if(strcmp(p->animal->nome, nome) == 0)
+            return p;
+    }
+
+    return NULL;
 }

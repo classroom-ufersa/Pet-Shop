@@ -45,8 +45,8 @@ int main(void){
 		break;
 
         case '4': 
-		printf("Função indisponivel\n");
-
+		remove_animal(&animais);
+        imprime_animais(animais, "animais.txt");
         break;
 
 	    case '5':
