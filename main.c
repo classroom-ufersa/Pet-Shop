@@ -7,7 +7,6 @@
 int main(void){
     
     Cliente * lista_clientes = NULL;
-    Lista* lista = lista_ler_arquivo();
     Lista *animais = NULL;
     char escolhaop;
     int num_clientes;
@@ -38,7 +37,7 @@ int main(void){
         break;
 
         case '3':
-        printf("\n Cadastro de animal\n");
+        printf("---Cadastro de animal---\n");
         Animal *novo_animal = cadastra_animal(1, lista_clientes);
         animais = lista_insere_ordenada(animais, novo_animal);
         imprime_animais(animais, "animais.txt");
@@ -50,12 +49,12 @@ int main(void){
         break;
 
 	    case '5':
-        char nome_alvo[80];
-        printf ("Informe o nome do animal que deseja editar o cadastro:\n");
-        scanf("%[^\n]", nome_alvo);
-		lista_edita_animal(lista, nome_alvo);
-
-        imprime_animais_editado("animais.txt");
+        printf("Digite o ID do animal que deseja editar: \t");
+        int id_alvo;
+        scanf("%d", &id_alvo);
+        lista_edita_animal(animais, id_alvo);
+        imprime_animais_editado(animais);
+        imprime_animais(animais, "animais.txt");
         break;
 
 	    case '6':   

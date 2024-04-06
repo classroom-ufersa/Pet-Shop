@@ -7,6 +7,7 @@ typedef struct animal {
     char nome[80];
     char especie[80];
     char saude[80];
+    int id_animal;
     Cliente *cliente_associado; 
     struct animal *proximo;
 } Animal;
@@ -34,7 +35,7 @@ int lista_vazia(Lista *l);
 
 void imprime_animais(Lista *animal, const char *nome_arquivo);
 
-void lista_edita_animal(Lista* animal, char nome_alvo[]);
+void lista_edita_animal(Lista* animal, int id_alvo);
 
 void imprime_animais_editado(Lista *lista);
 

@@ -49,9 +49,9 @@ Animal* add_animal(Cliente *lista_clientes) {
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
-
-        printf("Informe os dados do animal:\n");
-
+        printf("\n");
+        printf("Informe os dados do animal!\n");
+        printf("\n");
         printf("Digite o nome do animal:\n ");
         scanf(" %[^\n]", pet->nome);
 
@@ -60,6 +60,9 @@ Animal* add_animal(Cliente *lista_clientes) {
 
         printf("Digite o estado de saude do animal:\n ");
         scanf(" %[^\n]", pet->saude);
+
+        printf("Digite o ID do animal:\n ");
+        scanf(" %d", &pet->id_animal);
 
         printf("Nome do cliente ao qual deve-se associar este animal: ");
         char nome_cliente[50];
@@ -75,7 +78,7 @@ Animal* add_animal(Cliente *lista_clientes) {
 
             pet->cliente_associado = cliente_associado;
 
-        printf("\nAnimal cadastrado com sucesso!\n");
+        printf("Animal cadastrado com sucesso!\n");
 
         }
 
@@ -93,14 +96,13 @@ Animal *cadastra_animal(int num_animal, Cliente *lista_clientes)
     }
 
     for (int i = 0; i < num_animal; i++) {
-        printf("\n Cadastro do animal\n");
         pet[i] = *add_animal(lista_clientes);
     }
     return pet;
 }
 
 void menu(){
-    printf("\nMenu de Opcoes:\n");
+    printf("\n------Menu de Opcoes------\n");
     printf("\n");
     printf("1. Adicionar Cliente\n");
     printf("2. Remover Cliente\n");
@@ -110,7 +112,7 @@ void menu(){
     printf("6. Buscar Animal por Nome\n");
     printf("7. Listar Clientes e Animais\n");
     printf("8. Sair\n");
-    printf("\n");
+    printf("\n--------------------------\n");
 }
 
 char ler_opcao(char menor_valor, char maior_valor)
@@ -150,6 +152,8 @@ void imprime_animais(Lista *animal, const char *nome_arquivo){
         fprintf(arquivo, "Nome: %s\n", animal->animal->nome);
         fprintf(arquivo, "Especie: %s\n", animal->animal->especie);
         fprintf(arquivo, "Saude: %s\n", animal->animal->saude);
+        fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
+        fprintf(arquivo, "\n");
 
         animal = animal->proximo;
     }
@@ -161,7 +165,7 @@ void imprime_animais(Lista *animal, const char *nome_arquivo){
 void remove_animal(Lista **lista_animal){
     char nome[50];
 
-    printf("\nNome do animal que deseja remover: ");
+    printf("Nome do animal que deseja remover:\n");
     scanf("%s", nome);
 
     // Busca o animal na lista
@@ -209,10 +213,10 @@ Lista *lista_busca_animal(char nome[], Lista *l) {
     return NULL;
 }
 
-void lista_edita_animal(Lista* animal, char nome_alvo[]) {
+void lista_edita_animal(Lista* animal, int id_alvo) {
     Lista* temp = animal;
 
-    while (temp != NULL && strcmp(temp->animal->nome, nome_alvo) != 0) {
+    while (temp != NULL && temp->animal->id_animal != id_alvo) {
         temp = temp->proximo;
     }
 
@@ -221,20 +225,20 @@ void lista_edita_animal(Lista* animal, char nome_alvo[]) {
         printf("Digite o novo nome do animal:\n");
         scanf(" %[^\n]", temp->animal->nome);
 
-        printf("Digite a nova espécie do animal:\n");
+        printf("Digite a nova especie do animal:\n");
         scanf(" %[^\n]", temp->animal->especie);
 
-        printf("Digite o novo estado de saúde do animal:\n");
+        printf("Digite o novo estado de saude do animal:\n");
         scanf(" %[^\n]", temp->animal->saude);
 
-        printf("Edição concluída com sucesso.\n");
+        printf("Edição concluida com sucesso.\n");
     } else {
-        printf("Animal com ID %d não encontrado na lista.\n", nome_alvo);
+        printf("Animal com ID %s nao encontrado na lista.\n", id_alvo);
     }
 }
 
 void imprime_animais_editado(Lista *lista){
-    printf("Lista de animais após a edição:\n");
+    printf("Lista de animais apos a ediçao:\n");
     
     if (lista == NULL) {
         printf("Lista vazia.\n");
@@ -242,7 +246,7 @@ void imprime_animais_editado(Lista *lista){
     }
     
     while (lista != NULL) {
-        printf("Nome: %s, Espécie: %s, Saúde: %s\n", lista->animal->nome, lista->animal->especie, lista->animal->saude);
+        printf("Nome: %s, Especie: %s, Saude: %s, ID: %d\n", lista->animal->nome, lista->animal->especie, lista->animal->saude, lista->animal->id_animal);
         lista = lista->proximo;
     }
 }
