@@ -19,6 +19,7 @@ int main(void){
         printf("Escolha uma opcao: ");
         escolhaop = ler_opcao('1', '8'); 
         switch (escolhaop) {
+            
        case '1':
         
         printf("Quantos clientes deseja cadastrar? ");
