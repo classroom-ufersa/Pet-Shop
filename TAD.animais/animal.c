@@ -208,3 +208,41 @@ Lista *lista_busca_animal(char nome[], Lista *l) {
 
     return NULL;
 }
+
+void lista_edita_animal(Lista* animal, char nome_alvo[]) {
+    Lista* temp = animal;
+
+    while (temp != NULL && strcmp(temp->animal->nome, nome_alvo) != 0) {
+        temp = temp->proximo;
+    }
+
+    if (temp != NULL) {
+    
+        printf("Digite o novo nome do animal:\n");
+        scanf(" %[^\n]", temp->animal->nome);
+
+        printf("Digite a nova espécie do animal:\n");
+        scanf(" %[^\n]", temp->animal->especie);
+
+        printf("Digite o novo estado de saúde do animal:\n");
+        scanf(" %[^\n]", temp->animal->saude);
+
+        printf("Edição concluída com sucesso.\n");
+    } else {
+        printf("Animal com ID %d não encontrado na lista.\n", nome_alvo);
+    }
+}
+
+void imprime_animais_editado(Lista *lista){
+    printf("Lista de animais após a edição:\n");
+    
+    if (lista == NULL) {
+        printf("Lista vazia.\n");
+        return;
+    }
+    
+    while (lista != NULL) {
+        printf("Nome: %s, Espécie: %s, Saúde: %s\n", lista->animal->nome, lista->animal->especie, lista->animal->saude);
+        lista = lista->proximo;
+    }
+}

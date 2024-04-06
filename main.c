@@ -7,6 +7,7 @@
 int main(void){
     
     Cliente * lista_clientes = NULL;
+    Lista* lista = lista_ler_arquivo();
     Lista *animais = NULL;
     char escolhaop;
     int num_clientes;
@@ -48,8 +49,12 @@ int main(void){
         break;
 
 	    case '5':
-		//funçao de editar cadastro de animal
-		printf("Função indisponivel\n");
+        char nome_alvo[80];
+        printf ("Informe o nome do animal que deseja editar o cadastro:\n");
+        scanf("%[^\n]", nome_alvo);
+		lista_edita_animal(lista, nome_alvo);
+
+        imprime_animais_editado("animais.txt");
         break;
 
 	    case '6':   

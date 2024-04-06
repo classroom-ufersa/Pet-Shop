@@ -34,6 +34,10 @@ int lista_vazia(Lista *l);
 
 void imprime_animais(Lista *animal, const char *nome_arquivo);
 
+void lista_edita_animal(Lista* animal, char nome_alvo[]);
+
+void imprime_animais_editado(Lista *lista);
+
 void menu();
 
 char ler_opcao(char menor_valor, char maior_valor);
