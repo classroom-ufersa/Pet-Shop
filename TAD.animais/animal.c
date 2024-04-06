@@ -3,92 +3,162 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../TAD.clientes/cliente.h"
+#include <ctype.h>
 
 void limpabuffer()
 {
     fflush(stdin);
 }
 
-Lista* lista_animais(void) {
+Lista *lista_animais(void)
+{
     return NULL;
 }
 
-Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal) {
+Lista *lista_insere_ordenada(Lista *l, Animal *novo_animal)
+{
     Lista *novo;
     Lista *ant = NULL;
     Lista *p = l;
-    
-    novo = (Lista*) malloc(sizeof(Lista));
-    if (novo == NULL){
+
+    novo = (Lista *)malloc(sizeof(Lista));
+    if (novo == NULL)
+    {
         printf("Erro, memoria insuficiente!");
         exit(1);
     }
-    
+
     novo->animal = novo_animal;
     novo->proximo = NULL;
-    
-    while(p != NULL && strcmp(p->animal->nome, novo_animal->nome) < 0){
+
+    while (p != NULL && strcmp(p->animal->nome, novo_animal->nome) < 0)
+    {
         ant = p;
         p = p->proximo;
     }
-    
-    if(ant == NULL){
+
+    if (ant == NULL)
+    {
         novo->proximo = l;
         l = novo;
-    } else {
+    }
+    else
+    {
         novo->proximo = ant->proximo;
         ant->proximo = novo;
     }
-    
+
     return l;
 }
 
-int lista_vazia(Lista *l){
+int lista_vazia(Lista *l)
+{
     return (l == NULL);
 }
 
-Animal* add_animal(Cliente *lista_clientes) {
+Animal *add_animal(Cliente *lista_clientes)
+{
     Animal *pet = (Animal *)malloc(sizeof(Animal));
 
-    if (pet == NULL) {
+    if (pet == NULL)
+    {
         printf("Erro ao alocar memória!\n");
         exit(1);
     }
-        printf("\n");
-        printf("Informe os dados do animal!\n");
-        printf("\n");
-        printf("Digite o nome do animal:\n ");
+    printf("\n");
+    printf("Informe os dados do animal!\n");
+    printf("\n");
+    printf("Digite o nome do animal:\n ");
+
+    int valido_nome = 1;
+    do
+    {
         scanf(" %[^\n]", pet->nome);
-       
-        printf("Digite a especie do animal:\n ");
-        scanf(" %[^\n]", pet->especie);
-
-        printf("Digite o estado de saude do animal:\n ");
-        scanf(" %[^\n]", pet->saude);
-
-        printf("Digite o ID do animal:\n ");
-        scanf(" %d", &pet->id_animal);
-
-        printf("Nome do cliente ao qual deve-se associar este animal: ");
-        char nome_cliente[50];
-        scanf(" %[^\n]", nome_cliente);
-
-        Cliente* cliente_associado = Lista_busca(nome_cliente, lista_clientes);
-        if (cliente_associado == NULL){
-            printf("Cliente nao encontrado!" );
-            return NULL;
+        valido_nome = 1;
+        for (int i = 0; pet->nome[i] != '\0'; i++)
+        {
+            if (!isalpha(pet->nome[i]) && pet->nome[i] != ' ')
+            {
+                valido_nome = 0;
+                printf("\nNome invalido, tente novamente:\n");
+                printf("\nDigite o nome do animal:\n ");
+                break;
+            }
         }
+    } while (!valido_nome);
 
-        else{
+    printf("\nDigite a especie do animal:\n ");
+    int valido_especie = 1;
+    do
+    {
+        scanf(" %[^\n]", pet->especie);
+        valido_especie = 1;
+        for (int i = 0; pet->especie[i] != '\0'; i++)
+        {
+            if (!isalpha(pet->especie[i]) && pet->especie[i] != ' ')
+            {
+                valido_especie = 0;
+                printf("\nEspecie invalida, tente novamente:\n");
+                printf("\nDigite a especie do animal:\n ");
+                break;
+            }
+        }
+    } while (!valido_especie);
 
-            pet->cliente_associado = cliente_associado;
+    printf("\nDigite o estado de saude do animal:\n ");
+    int valido_saude = 1;
+    do
+    {
+        scanf(" %[^\n]", pet->saude);
+        valido_saude = 1;
+        for (int i = 0; pet->saude[i] != '\0'; i++)
+        {
+            if (!isalpha(pet->saude[i]) && pet->saude[i] != ' ')
+            {
+                valido_saude = 0;
+                printf("\nEstado de saude invalido, tente novamente:\n");
+                printf("\nDigite o estado de saude do animal:\n ");
+                break;
+            }
+        }
+    } while (!valido_saude);
+
+    printf("\nDigite o ID do animal:\n ");
+    int valido_id = 1;
+    do
+    {
+        valido_id = 1;
+        if (scanf(" %d", &pet->id_animal) != 1)
+        {
+            valido_id = 0;
+            printf("\nID invalido, tente novamente:\n");
+            printf("\nDigite o ID do animal:\n ");
+            while (getchar() != '\n')
+                ;
+        }
+    } while (!valido_id);
+
+    printf("Nome do cliente ao qual deve-se associar este animal: ");
+    char nome_cliente[50];
+    scanf(" %[^\n]", nome_cliente);
+
+    Cliente *cliente_associado = Lista_busca(nome_cliente, lista_clientes);
+    if (cliente_associado == NULL)
+    {
+        printf("Cliente nao encontrado!");
+        return NULL;
+    }
+
+    else
+    {
+
+        pet->cliente_associado = cliente_associado;
 
         printf("Animal cadastrado com sucesso!\n");
+    }
 
-        }
-
-        return pet;
-    }      
+    return pet;
+}
 
 Animal *cadastra_animal(int num_animal, Cliente *lista_clientes)
 {
@@ -100,13 +170,15 @@ Animal *cadastra_animal(int num_animal, Cliente *lista_clientes)
         exit(1);
     }
 
-    for (int i = 0; i < num_animal; i++) {
+    for (int i = 0; i < num_animal; i++)
+    {
         pet[i] = *add_animal(lista_clientes);
     }
     return pet;
 }
 
-void menu(){
+void menu()
+{
     printf("\n------Menu de Opcoes------\n");
     printf("\n");
     printf("1. Adicionar Cliente\n");
@@ -142,7 +214,8 @@ char ler_opcao(char menor_valor, char maior_valor)
     } while (1);
 }
 
-void imprime_animais(Lista *animal, const char *nome_arquivo){
+void imprime_animais(Lista *animal, const char *nome_arquivo)
+{
     FILE *arquivo = fopen(nome_arquivo, "a");
     if (arquivo == NULL)
     {
@@ -198,26 +271,31 @@ void remove_animal(Lista **lista_animal){
     printf("Animal removido com sucesso!\n");
 }
 
-Lista *lista_busca_animal(char nome[], Lista *l) {
+Lista *lista_busca_animal(char nome[], Lista *l)
+{
     Lista *p;
 
-    for(p = l; p != NULL; p = p->proximo) {
-        if(strcmp(p->animal->nome, nome) == 0)
+    for (p = l; p != NULL; p = p->proximo)
+    {
+        if (strcmp(p->animal->nome, nome) == 0)
             return p;
     }
 
     return NULL;
 }
 
-void lista_edita_animal(Lista* animal, int id_alvo) {
-    Lista* temp = animal;
+void lista_edita_animal(Lista *animal, int id_alvo)
+{
+    Lista *temp = animal;
 
-    while (temp != NULL && temp->animal->id_animal != id_alvo) {
+    while (temp != NULL && temp->animal->id_animal != id_alvo)
+    {
         temp = temp->proximo;
     }
 
-    if (temp != NULL) {
-    
+    if (temp != NULL)
+    {
+
         printf("Digite o novo nome do animal:\n");
         scanf(" %[^\n]", temp->animal->nome);
 
@@ -228,20 +306,25 @@ void lista_edita_animal(Lista* animal, int id_alvo) {
         scanf(" %[^\n]", temp->animal->saude);
 
         printf("Edição concluida com sucesso.\n");
-    } else {
+    }
+    else
+    {
         printf("Animal com ID %s nao encontrado na lista.\n", id_alvo);
     }
 }
 
-void imprime_animais_editado(Lista *lista){
+void imprime_animais_editado(Lista *lista)
+{
     printf("Lista de animais apos a ediçao:\n");
-    
-    if (lista == NULL) {
+
+    if (lista == NULL)
+    {
         printf("Lista vazia.\n");
         return;
     }
-    
-    while (lista != NULL) {
+
+    while (lista != NULL)
+    {
         printf("Nome: %s, Especie: %s, Saude: %s, ID: %d\n", lista->animal->nome, lista->animal->especie, lista->animal->saude, lista->animal->id_animal);
         lista = lista->proximo;
     }
