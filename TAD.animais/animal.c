@@ -168,43 +168,34 @@ void imprime_animais(Lista *animal, const char *nome_arquivo){
 }
 
 void remove_animal(Lista **lista_animal){
-    char nome[50];
+    int id_remover;
 
-    printf("Nome do animal que deseja remover:\n");
-    scanf("%s", nome);
+    printf("ID do animal que deseja remover:\n");
+    scanf(" %d", &id_remover);
 
     // Busca o animal na lista
-    Lista *animal = lista_busca_animal(nome, *lista_animal);
+    Lista *ant = NULL;
+    Lista *p = *lista_animal;
 
-    if (animal == NULL){
+    while (p != NULL && p->animal->id_animal != id_remover) {
+        ant = p;
+        p = p->proximo;
+    }
+
+    // Se não encontrou o animal na lista
+    if (p == NULL) {
         printf("Animal nao encontrado!\n");
         return;
     }
 
     // Remove o animal da lista
-    *lista_animal = lista_retira_animal(*lista_animal, nome);
-
-    printf("Animal removido com sucesso!\n");
-}
-
-Lista *lista_retira_animal(Lista*l, char nome[]){ // Corrigido o tipo do parâmetro
-    Lista* ant = NULL; /* ponteiro para elemento anterior */
-    Lista* p = l; /* ponteiro para percorrer a lista*/
-    /* procura elemento na lista, guardando anterior */
-    while(p != NULL && strcmp(p->animal->nome, nome) != 0){
-        ant = p;
-        p = p->proximo;
-    }
-    
-    /* retira elemento */
-    if (p == NULL)
-        return l; /* não achou: retorna lista original */
     if (ant == NULL)
-        l = p->proximo; /* retira elemento do inicio */
+        *lista_animal = p->proximo;
     else
-        ant->proximo = p->proximo; /* retira elemento do meio da lista */
+        ant->proximo = p->proximo;
+
     free(p);
-    return l;
+    printf("Animal removido com sucesso!\n");
 }
 
 Lista *lista_busca_animal(char nome[], Lista *l) {
