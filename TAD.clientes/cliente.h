@@ -37,4 +37,6 @@ void remove_cliente(Cliente **lista_clientes);
 
 void imprime_clientes(Cliente *Lista, const char *nome_arquivo);
 
+void listar_clientes(const char *nome_arquivo);
+
 #endif

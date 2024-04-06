@@ -233,3 +233,27 @@ void imprime_clientes(Cliente *lista, const char *nome_arquivo) {
     fclose(arquivo);
     printf("Clientes impressos com sucesso no arquivo %s\n", nome_arquivo);
 }
+
+void listar_clientes(const char *nome_arquivo) {
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo %s\n", nome_arquivo);
+        return;
+    }
+
+    printf("Clientes cadastrados:\n");
+    printf("---------------------\n");
+
+    char nome[50];
+    int telefone;
+    char endereco[50];
+
+    while (fscanf(arquivo, " %49s %d %49s", nome, &telefone, endereco) == 3) {
+        printf("Nome: %s\n", nome);
+        printf("Telefone: %d\n", telefone);
+        printf("Endereco: %s\n", endereco);
+        printf("---------------------\n");
+    }
+
+    fclose(arquivo);
+}

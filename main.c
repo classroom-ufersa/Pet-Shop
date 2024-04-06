@@ -58,14 +58,13 @@ int main(void){
 
 	    case '7': 
 
-	    //imprime_animais(animais, "animais.txt");
-        //funçao de Buscar Animal por Nome
+        listar_clientes("clientes.txt");
 
 	    //imprime_animais(animais, "animais.txt");
         //funçao de Buscar Animal por Nome
-		printf("Função indisponivel\n");
 
-
+	    //imprime_animais(animais, "animais.txt");
+        //funçao de Buscar Animal por Nome
         break;
 
 	    case '8':   
