@@ -19,7 +19,7 @@ typedef struct lista {
 
 void limpabuffer();
 
-Animal* add_animal(Cliente *lista_clientes);
+void adicionarAnimal(Cliente *listaClientes);
 
 Animal *add_animal2(Cliente *lista_clientes, char *nome_animal, char *especie, char *saude, int id_animal);
 

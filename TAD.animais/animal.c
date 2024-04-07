@@ -1,248 +1,55 @@
-#include "animal.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "../TAD.clientes/cliente.h"
-#include <ctype.h>
+#include "animal.h"
 
-void limpabuffer()
-{
-    fflush(stdin);
-}
-
-Lista *lista_animais(void)
-{
-    return NULL;
-}
-
-Lista *lista_insere_ordenada(Lista *l, Animal *novo_animal)
-{
-    Lista *novo;
-    Lista *ant = NULL;
-    Lista *p = l;
-
-    novo = (Lista *)malloc(sizeof(Lista));
-    if (novo == NULL)
-    {
-        printf("Erro, memoria insuficiente!");
-        exit(1);
+void adicionarAnimal(Cliente *listaClientes) {
+    if (listaClientes == NULL) {
+        printf("Não há clientes cadastrados para associar o animal.\n");
+        return;
     }
 
-    novo->animal = novo_animal;
-    novo->proximo = NULL;
+    char nomeCliente[50];
+    printf("Digite o nome do cliente ao qual o animal será associado: ");
+    scanf(" %[^\n]", nomeCliente);
 
-    while (p != NULL && strcmp(p->animal->nome_animal, novo_animal->nome_animal) < 0)
-    {
-        ant = p;
-        p = p->proximo;
+    Cliente *cliente = buscarClientePorNome(listaClientes, nomeCliente);
+    if (cliente == NULL) {
+        printf("Cliente não encontrado.\n");
+        return;
     }
 
-    if (ant == NULL)
-    {
-        novo->proximo = l;
-        l = novo;
-    }
-    else
-    {
-        novo->proximo = ant->proximo;
-        ant->proximo = novo;
+    // Aloca memória para o novo animal
+    Animal *novoAnimal = (Animal *)malloc(sizeof(Animal));
+    if (novoAnimal == NULL) {
+        printf("Erro ao alocar memória para o animal.\n");
+        return;
     }
 
-    return l;
-}
+    printf("Digite o nome do animal: ");
+    scanf(" %[^\n]", novoAnimal->nome);
+    printf("Digite a espécie do animal: ");
+    scanf(" %[^\n]", novoAnimal->especie);
+    printf("Digite o estado de saúde do animal: ");
+    scanf(" %[^\n]", novoAnimal->saude);
 
-int lista_vazia(Lista *l)
-{
-    return (l == NULL);
-}
+    novoAnimal->prox = NULL;
 
-Animal *add_animal2(Cliente *lista_clientes, char *nome_animal, char *especie, char *saude, int id_animal) {
-    Animal *pet = (Animal *)malloc(sizeof(Animal));
-
-    if (pet == NULL) {
-        printf("Erro ao alocar memória!\n");
-        exit(1);
-    }
-
-    printf("\nInforme os dados do animal!\n");
-    printf("\nDigite o nome do animal:\n ");
-
-    int valido_nome = 1;
-    do {
-        scanf(" %[^\n]", pet->nome_animal);
-        valido_nome = 1;
-        for (int i = 0; pet->nome_animal[i] != '\0'; i++) {
-            if (!isalpha(pet->nome_animal[i]) && pet->nome_animal[i] != ' ') {
-                valido_nome = 0;
-                printf("\nNome inválido, tente novamente:\n");
-                printf("\nDigite o nome do animal:\n ");
-                break;
-            }
-        }
-    } while (!valido_nome);
-
-    printf("\nDigite a espécie do animal:\n ");
-    int valido_especie = 1;
-    do {
-        scanf(" %[^\n]", pet->especie);
-        valido_especie = 1;
-        for (int i = 0; pet->especie[i] != '\0'; i++) {
-            if (!isalpha(pet->especie[i]) && pet->especie[i] != ' ') {
-                valido_especie = 0;
-                printf("\nEspécie inválida, tente novamente:\n");
-                printf("\nDigite a espécie do animal:\n ");
-                break;
-            }
-        }
-    } while (!valido_especie);
-
-    printf("\nDigite o estado de saúde do animal:\n ");
-    int valido_saude = 1;
-    do {
-        scanf(" %[^\n]", pet->saude);
-        valido_saude = 1;
-        for (int i = 0; pet->saude[i] != '\0'; i++) {
-            if (!isalpha(pet->saude[i]) && pet->saude[i] != ' ') {
-                valido_saude = 0;
-                printf("\nEstado de saúde inválido, tente novamente:\n");
-                printf("\nDigite o estado de saúde do animal:\n ");
-                break;
-            }
-        }
-    } while (!valido_saude);
-
-    printf("\nDigite o ID do animal:\n ");
-    int valido_id = 1;
-    do {
-        valido_id = 1;
-        if (scanf(" %d", &pet->id_animal) != 1) {
-            valido_id = 0;
-            printf("\nID inválido, tente novamente:\n");
-            printf("\nDigite o ID do animal:\n ");
-            while (getchar() != '\n');
-        }
-    } while (!valido_id);
-
-    printf("Nome do cliente ao qual deve-se associar este animal: ");
-    char nome_cliente[50];
-    scanf(" %[^\n]", nome_cliente);
-
-    Cliente *cliente_associado = Lista_busca(nome_cliente, lista_clientes);
-    if (cliente_associado == NULL) {
-        printf("Cliente não encontrado!");
-        return NULL;
+    // Caso o cliente não tenha nenhum animal, o novo animal será o primeiro
+    if (cliente->animais == NULL) {
+        cliente->animais = novoAnimal;
     } else {
-        pet->cliente_associado = cliente_associado;
-        printf("Cliente cadastrado com sucesso! ");
-        atualiza_cliente_arquivo(nome_cliente, pet->id_animal, pet->nome_animal, pet->especie, pet->saude);
-    }
-    return pet;
-}
-
-
-Animal *add_animal(Cliente *lista_clientes)
-{
-    Animal *pet = (Animal *)malloc(sizeof(Animal));
-
-    if (pet == NULL)
-    {
-        printf("Erro ao alocar memória!\n");
-        exit(1);
-    }
-    printf("\n");
-    printf("Informe os dados do animal!\n");
-    printf("\n");
-    printf("Digite o nome do animal:\n ");
-
-    int valido_nome = 1;
-    do
-    {
-        scanf(" %[^\n]", pet->nome_animal);
-        valido_nome = 1;
-        for (int i = 0; pet->nome_animal[i] != '\0'; i++)
-        {
-            if (!isalpha(pet->nome_animal[i]) && pet->nome_animal[i] != ' ')
-            {
-                valido_nome = 0;
-                printf("\nNome invalido, tente novamente:\n");
-                printf("\nDigite o nome do animal:\n ");
-                break;
-            }
+        Animal *atual = cliente->animais;
+        while (atual->prox != NULL) {
+            atual = atual->prox;
         }
-    } while (!valido_nome);
-
-    printf("\nDigite a especie do animal:\n ");
-    int valido_especie = 1;
-    do
-    {
-        scanf(" %[^\n]", pet->especie);
-        valido_especie = 1;
-        for (int i = 0; pet->especie[i] != '\0'; i++)
-        {
-            if (!isalpha(pet->especie[i]) && pet->especie[i] != ' ')
-            {
-                valido_especie = 0;
-                printf("\nEspecie invalida, tente novamente:\n");
-                printf("\nDigite a especie do animal:\n ");
-                break;
-            }
-        }
-    } while (!valido_especie);
-
-    printf("\nDigite o estado de saude do animal:\n ");
-    int valido_saude = 1;
-    do
-    {
-        scanf(" %[^\n]", pet->saude);
-        valido_saude = 1;
-        for (int i = 0; pet->saude[i] != '\0'; i++)
-        {
-            if (!isalpha(pet->saude[i]) && pet->saude[i] != ' ')
-            {
-                valido_saude = 0;
-                printf("\nEstado de saude invalido, tente novamente:\n");
-                printf("\nDigite o estado de saude do animal:\n ");
-                break;
-            }
-        }
-    } while (!valido_saude);
-
-    printf("\nDigite o ID do animal:\n ");
-    int valido_id = 1;
-    do
-    {
-        valido_id = 1;
-        if (scanf(" %d", &pet->id_animal) != 1)
-        {
-            valido_id = 0;
-            printf("\nID invalido, tente novamente:\n");
-            printf("\nDigite o ID do animal:\n ");
-            while (getchar() != '\n')
-                ;
-        }
-    } while (!valido_id);
-
-    printf("Nome do cliente ao qual deve-se associar este animal: ");
-    char nome_cliente[50];
-    scanf(" %[^\n]", nome_cliente);
-
-    Cliente *cliente_associado = Lista_busca(nome_cliente, lista_clientes);
-    if (cliente_associado == NULL)
-    {
-        printf("Cliente nao encontrado!");
-        return NULL;
+        atual->prox = novoAnimal;
     }
 
-    else
-    {
-        pet->cliente_associado = cliente_associado;
-        printf("Cliente cadastrado com sucesso! ");
-        atualiza_cliente_arquivo(nome_cliente, pet->id_animal, pet->nome_animal, pet->especie, pet->saude);
-
-    return pet;
+    printf("Animal adicionado com sucesso!\n");
 }
 
-}
     
 Animal *cadastra_animal(int num_animal, Cliente *lista_clientes){
 
