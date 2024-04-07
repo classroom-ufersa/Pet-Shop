@@ -88,21 +88,6 @@ void removerAnimal(Cliente *cliente) {
     printf("Animal removido com sucesso!\n");
 }
 
-void menu()
-{
-    printf("\n------Menu de Opcoes------\n");
-    printf("\n");
-    printf("1. Adicionar Cliente\n");
-    printf("2. Remover Cliente\n");
-    printf("3. Adicionar Animal\n");
-    printf("4. Remover Animal\n");
-    printf("5. Editar Cadastro de Animal\n");
-    printf("6. Buscar Animal por Nome\n");
-    printf("7. Listar Clientes e Animais\n");
-    printf("8. Sair\n");
-    printf("\n--------------------------\n");
-}
-
 Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome) {
     Cliente *clienteAtual = listaClientes;
     while (clienteAtual != NULL) {
