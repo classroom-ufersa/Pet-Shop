@@ -21,15 +21,11 @@ void limpabuffer();
 
 void adicionarAnimal(Cliente *listaClientes);
 
-Lista *lista_busca_animal(char nome[], Lista *l);
+Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome);
 
 void removerAnimal(Cliente *cliente);
 
 Lista* lista_animais(void);
-
-int lista_vazia(Lista *l);
-
-void imprime_animais(Lista *animal, const char *nome_arquivo);
 
 void editarAnimal(Cliente *listaClientes);
 

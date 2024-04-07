@@ -88,23 +88,6 @@ void removerAnimal(Cliente *cliente) {
     printf("Animal removido com sucesso!\n");
 }
 
-Animal *cadastra_animal(int num_animal, Cliente *lista_clientes){
-
-    Animal *pet = (Animal *)malloc(num_animal * sizeof(Animal));
-
-    if (pet == NULL)
-    {
-        printf("Erro ao alocar memoria! ");
-        exit(1);
-    }
-
-    for (int i = 0; i < num_animal; i++)
-    {
-        pet[i] = *add_animal(lista_clientes);
-    }
-    return pet;
-}
-
 void menu()
 {
     printf("\n------Menu de Opcoes------\n");
@@ -120,64 +103,18 @@ void menu()
     printf("\n--------------------------\n");
 }
 
-char ler_opcao(char menor_valor, char maior_valor)
-{
-    char escolhaop;
-    char entrada[100];
-
-    do
-    {
-        scanf(" %[^\n]", entrada);
-
-        escolhaop = entrada[0];
-
-        if (escolhaop >= menor_valor && escolhaop <= maior_valor && strlen(entrada) == 1)
-        {
-            return escolhaop;
+Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome) {
+    Cliente *clienteAtual = listaClientes;
+    while (clienteAtual != NULL) {
+        Animal *animalAtual = clienteAtual->animais;
+        while (animalAtual != NULL) {
+            if (strcmp(nome, animalAtual->nome) == 0) {
+                return animalAtual;
+            }
+            animalAtual = animalAtual->prox;
         }
-        else
-        {
-            printf("Opcao invalida. A opcao deve estar entre %c e %c: ", menor_valor, maior_valor);
-        }
-    } while (1);
-}
-
-void imprime_animais(Lista *animal, const char *nome_arquivo)
-{
-    FILE *arquivo = fopen(nome_arquivo, "a");
-    if (arquivo == NULL)
-    {
-        printf("Erro ao abrir arquivo!");
-        exit(1);
+        clienteAtual = clienteAtual->prox;
     }
-
-    fprintf(arquivo, "Animais cadastrados:\n");
-
-    while (animal != NULL)
-    {
-        fprintf(arquivo, "Nome: %s\n", animal->animal->nome_animal);
-        fprintf(arquivo, "Especie: %s\n", animal->animal->especie);
-        fprintf(arquivo, "Saude: %s\n", animal->animal->saude);
-        fprintf(arquivo, "ID: %d\n", animal->animal->id_animal);
-        fprintf(arquivo, "\n");
-
-        animal = animal->proximo;
-    }
-
-    fclose(arquivo);
-    printf("\nDados dos animais foram impressos no arquivo %s.\n", nome_arquivo);
-}
-
-Lista *lista_busca_animal(char nome[], Lista *l)
-{
-    Lista *p;
-
-    for (p = l; p != NULL; p = p->proximo)
-    {
-        if (strcmp(p->animal->nome_animal, nome) == 0)
-            return p;
-    }
-
     return NULL;
 }
 
