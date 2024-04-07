@@ -129,21 +129,35 @@ void removerCliente(Cliente **listaClientes) {
 }
 
 
-int lista_vazia_clientes(Cliente *lista)
-{
-    return (lista == NULL);
+Cliente *buscarClientePorNome(Cliente *listaClientes, const char *nome) {
+    Cliente *clienteAtual = listaClientes;
+    while (clienteAtual != NULL) {
+        if (strcmp(nome, clienteAtual->nome) == 0) {
+            return clienteAtual;
+        }
+        clienteAtual = clienteAtual->prox;
+    }
+    return NULL;
 }
 
-void lista_imprime(int elemento, Cliente *lista)
-{
-    Cliente *p;
-    for (p = lista; p != NULL; p = p->proximo)
-    {
-        printf(" Dados do cliente: ");
+void listarClientes(Cliente *listaClientes) {
+    if (listaClientes == NULL) {
+        printf("Lista de clientes vazia.\n");
+        return;
+    }
 
-        printf("\nNome: %s\n", p->nome);
-        printf("\nTelefone: %d\n", p->telefone);
-        printf("\nEndereco: %s\n", p->endereco);
+    Cliente *clienteAtual = listaClientes;
+    while (clienteAtual != NULL) {
+        printf("Cliente: %s\n", clienteAtual->nome);
+        printf("Endereço: %s\n", clienteAtual->endereco);
+        printf("Telefone: %s\n", clienteAtual->telefone);
+        printf("Animais:\n");
+        Animal *animalAtual = clienteAtual->animais;
+        while (animalAtual != NULL) {
+            printf("- Nome: %s, Especie: %s, Saude: %s\n", animalAtual->nome, animalAtual->especie, animalAtual->saude);
+            animalAtual = animalAtual->prox;
+        }
+        clienteAtual = clienteAtual->prox;
     }
 }
 
