@@ -55,7 +55,7 @@ void adicionarCliente(Cliente **listaClientes) {
             if (!isdigit(novoCliente->telefone[i])) {
                 valido_telefone = 0;
                 printf("Telefone invalido, tente novamente:\n");
-                printf("\nDigite o telefone do cliente");
+                printf("\nDigite o telefone do cliente:");
                 break;
             }
         }
@@ -149,7 +149,7 @@ void listarClientes(Cliente *listaClientes) {
     Cliente *clienteAtual = listaClientes;
     while (clienteAtual != NULL) {
         printf("Cliente: %s\n", clienteAtual->nome);
-        printf("Endereço: %s\n", clienteAtual->endereco);
+        printf("Endereco: %s\n", clienteAtual->endereco);
         printf("Telefone: %s\n", clienteAtual->telefone);
         printf("Animais:\n");
         Animal *animalAtual = clienteAtual->animais;

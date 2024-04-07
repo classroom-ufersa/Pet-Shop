@@ -17,7 +17,7 @@ void salvarDados(Cliente *listaClientes) {
     while (clienteAtual != NULL) {
         fprintf(arquivo, "Cliente:\n");
         fprintf(arquivo, "  Nome: %s\n", clienteAtual->nome);
-        fprintf(arquivo, "  Endereço: %s\n", clienteAtual->endereco);
+        fprintf(arquivo, "  Endereco: %s\n", clienteAtual->endereco);
         fprintf(arquivo, "  Telefone: %s\n", clienteAtual->telefone);
 
         Animal *animalAtual = clienteAtual->animais;
@@ -26,7 +26,7 @@ void salvarDados(Cliente *listaClientes) {
         } else {
             fprintf(arquivo, "  Animais:\n");
             while (animalAtual != NULL) {
-                fprintf(arquivo, "    - Nome: %s, Espécie: %s, Saude: %s\n", animalAtual->nome, animalAtual->especie, animalAtual->saude);
+                fprintf(arquivo, "    - Nome: %s, Especie: %s, Saude: %s\n", animalAtual->nome, animalAtual->especie, animalAtual->saude);
                 animalAtual = animalAtual->prox;
             }
         }

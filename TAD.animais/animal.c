@@ -158,7 +158,7 @@ void editarAnimal(Cliente *listaClientes) {
 
     Cliente *cliente = buscarClientePorNome(listaClientes, nomeCliente);
     if (cliente == NULL) {
-        printf("Cliente não encontrado.\n");
+        printf("Cliente nao encontrado.\n");
         return;
     }
 
