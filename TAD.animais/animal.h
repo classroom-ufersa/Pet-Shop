@@ -21,17 +21,9 @@ void limpabuffer();
 
 void adicionarAnimal(Cliente *listaClientes);
 
-Animal *add_animal2(Cliente *lista_clientes, char *nome_animal, char *especie, char *saude, int id_animal);
-
-Lista *lista_retira_animal(Lista*l, char nome[]); // Corrigido o tipo do parâmetro
-
 Lista *lista_busca_animal(char nome[], Lista *l);
 
 void removerAnimal(Cliente *cliente);
-
-Animal *cadastra_animal(int num_animal, Cliente *lista_clientes);
-
-Lista* lista_insere_ordenada(Lista* l, Animal *novo_animal);
 
 Lista* lista_animais(void);
 
@@ -39,7 +31,7 @@ int lista_vazia(Lista *l);
 
 void imprime_animais(Lista *animal, const char *nome_arquivo);
 
-void lista_edita_animal(Lista* animal, int id_alvo);
+void editarAnimal(Cliente *listaClientes);
 
 void imprime_animais_editado(Lista *lista);
 

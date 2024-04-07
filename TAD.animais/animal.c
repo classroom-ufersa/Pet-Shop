@@ -181,97 +181,50 @@ Lista *lista_busca_animal(char nome[], Lista *l)
     return NULL;
 }
 
-void lista_edita_animal(Lista *animal, int id_alvo)
-{
-    Lista *temp = animal;
-
-    while (temp != NULL && temp->animal->id_animal != id_alvo)
-    {
-        temp = temp->proximo;
-    }
-
-    if (temp != NULL)
-    {
-
-        printf("Digite o novo nome do animal:\n");
-        scanf(" %[^\n]", temp->animal->nome_animal);
-
-        printf("Digite a nova especie do animal:\n");
-        scanf(" %[^\n]", temp->animal->especie);
-
-        printf("Digite o novo estado de saude do animal:\n");
-        scanf(" %[^\n]", temp->animal->saude);
-
-        printf("Edição concluida com sucesso.\n");
-    }
-    else
-    {
-        printf("Animal com ID %s nao encontrado na lista.\n", id_alvo);
-    }
-}
-
-void imprime_animais_editado(Lista *lista)
-{
-    printf("Lista de animais apos a ediçao:\n");
-
-    if (lista == NULL)
-    {
-        printf("Lista vazia.\n");
+void editarAnimal(Cliente *listaClientes) {
+    if (listaClientes == NULL) {
+        printf("Não há clientes cadastrados.\n");
         return;
     }
 
-    while (lista != NULL)
-    {
-        printf("Nome: %s, Especie: %s, Saude: %s, ID: %d\n", lista->animal->nome_animal, lista->animal->especie, lista->animal->saude, lista->animal->id_animal);
-        lista = lista->proximo;
-    }
-}
+    char nomeCliente[50], nomeAnimal[50];
+    printf("Digite o nome do cliente: ");
+    scanf(" %[^\n]", nomeCliente);
 
-void atualiza_cliente_arquivo(const char *nome_cliente, int id_animal, const char *nome_animal, const char *especie, const char *saude) {
-    FILE *arquivo_entrada = fopen("clientes.txt", "r");
-    if (arquivo_entrada == NULL) {
-        printf("Erro ao abrir o arquivo clientes.txt\n");
+    Cliente *cliente = buscarClientePorNome(listaClientes, nomeCliente);
+    if (cliente == NULL) {
+        printf("Cliente não encontrado.\n");
         return;
     }
 
-    FILE *arquivo_saida = fopen("clientes_temp.txt", "w");
-    if (arquivo_saida == NULL) {
-        printf("Erro ao criar o arquivo temporário clientes_temp.txt\n");
-        fclose(arquivo_entrada);
+    printf("Digite o nome do animal que deseja editar: ");
+    scanf(" %[^\n]", nomeAnimal);
+
+    Animal *atual = cliente->animais;
+
+    // Procura pelo animal na lista do cliente
+    while (atual != NULL && strcmp(nomeAnimal, atual->nome) != 0) {
+        atual = atual->prox;
+    }
+
+    // Se o animal não foi encontrado
+    if (atual == NULL) {
+        printf("Animal não encontrado para o cliente %s.\n", nomeCliente);
         return;
     }
 
-    char linha[1000];
-    int encontrado = 0;
+    char novoNome[50], novaEspecie[50], novaSaude[50];
+    printf("Digite o novo nome do animal: ");
+    scanf(" %[^\n]", novoNome);
+    printf("Digite a nova espécie do animal: ");
+    scanf(" %[^\n]", novaEspecie);
+    printf("Digite o novo estado de saúde do animal: ");
+    scanf(" %[^\n]", novaSaude);
 
-    // Percorre o arquivo linha por linha
-    while (fgets(linha, sizeof(linha), arquivo_entrada) != NULL) {
-        // Verifica se a linha contém o nome do cliente
-        if (strstr(linha, nome_cliente) != NULL) {
-            // Adiciona as informações do animal associado à linha do cliente
-            fprintf(arquivo_saida, "%s Animal: %s/ Especie: %s/ Saude: %s/ ID Animal: %d\n", linha, nome_animal, especie, saude, id_animal);
-            encontrado = 1;
-        } else {
-            // Escreve a linha original no arquivo temporário
-            fprintf(arquivo_saida, "%s", linha);
-        }
-    }
+    // Atualiza as informações do animal
+    strcpy(atual->nome, novoNome);
+    strcpy(atual->especie, novaEspecie);
+    strcpy(atual->saude, novaSaude);
 
-    fclose(arquivo_entrada);
-    fclose(arquivo_saida);
-
-    // Remove o arquivo original
-    remove("clientes.txt");
-
-    // Renomeia o arquivo temporário para o nome original
-    if (rename("clientes_temp.txt", "clientes.txt") != 0) {
-        printf("Erro ao renomear o arquivo temporário\n");
-        return;
-    }
-
-    if (!encontrado) {
-        printf("Cliente não encontrado no arquivo clientes.txt\n");
-    } else {
-        printf("Associação entre cliente e animal atualizada com sucesso no arquivo clientes.txt\n");
-    }
+    printf("Cadastro do animal atualizado com sucesso!\n");
 }
