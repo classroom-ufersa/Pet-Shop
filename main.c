@@ -10,8 +10,6 @@ int main(void){
     Lista *animais = NULL;
     char escolhaop;
     int num_clientes;
-
-    lista_clientes = Cliente_ler_arquivo("clientes.txt");
     
     do {
         menu();
@@ -42,7 +40,8 @@ int main(void){
         Animal *novo_animal = cadastra_animal(1, lista_clientes);
         limpabuffer();
         animais = lista_insere_ordenada(animais, novo_animal);
-        imprime_animais(animais, "animais.txt");
+        lista_clientes = Cliente_ler_arquivo("clientes.txt");
+
         break;
 
         case '4': 
@@ -69,7 +68,7 @@ int main(void){
 
         if (animal_encontrado != NULL) {
             printf("Animal encontrado:\n");
-            printf("Nome: %s\n", animal_encontrado->animal->nome);
+            printf("Nome: %s\n", animal_encontrado->animal->nome_animal);
             printf("Especie: %s\n", animal_encontrado->animal->especie);
             printf("Saude: %s\n", animal_encontrado->animal->saude);
         } else {

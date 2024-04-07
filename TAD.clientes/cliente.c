@@ -3,13 +3,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "../TAD.animais/animal.h"
 
 struct cliente
 {
-
     char nome[50];
     int telefone;
     char endereco[50];
+    Animal *animal_associado;
     struct cliente *proximo;
 };
 
@@ -290,18 +291,42 @@ Cliente *Cliente_ler_arquivo(char *nome_arquivo)
     char nome[50];
     int telefone;
     char endereco[50];
+    char nome_animal[50];
+    char especie[80];
+    char saude[80];
+    int id_animal;
 
-    while (fscanf(arquivo, " %49s\t %d\t %49s\n", nome, &telefone, endereco) == 3)
+    while (fscanf(arquivo, " %49s\t %d\t %49s\t %49s\t %49s\t %d\n", nome, &telefone, endereco, nome_animal, especie, saude, &id_animal) != EOF)
     {
         // Insere o cliente na lista mantendo a ordenação alfabética
         Lista = insere_ordenada(Lista, nome, telefone, endereco);
+
+        // Encontra o cliente recém-inserido na lista
+        Cliente *cliente_associado = Lista_busca(nome, Lista);
+        if (cliente_associado == NULL)
+        {
+            printf("Erro ao encontrar o cliente associado ao animal.\n");
+            continue;
+        }
+
+        // Cadastra e associa o animal ao cliente
+        Animal *novo_animal = add_animal2(Lista, nome_animal, especie, saude, id_animal);
+    
+
+        if (novo_animal == NULL)
+        {
+            printf("Erro ao cadastrar o animal associado ao cliente.\n");
+            continue;
+        }
+
+        cliente_associado->animal_associado = novo_animal;
     }
 
     fclose(arquivo);
     return Lista;
 }
 
-// Função para imprimir os clientes no arquivo no formato especificado
+
 void imprime_clientes(Cliente *lista, const char *nome_arquivo)
 {
     FILE *arquivo = fopen(nome_arquivo, "w");

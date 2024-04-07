@@ -4,7 +4,7 @@
 #include "../TAD.clientes/cliente.h"
 
 typedef struct animal {
-    char nome[80];
+    char nome_animal[80];
     char especie[80];
     char saude[80];
     int id_animal;
@@ -20,6 +20,8 @@ typedef struct lista {
 void limpabuffer();
 
 Animal* add_animal(Cliente *lista_clientes);
+
+Animal *add_animal2(Cliente *lista_clientes, char *nome_animal, char *especie, char *saude, int id_animal);
 
 Lista *lista_retira_animal(Lista*l, char nome[]); // Corrigido o tipo do parâmetro
 
