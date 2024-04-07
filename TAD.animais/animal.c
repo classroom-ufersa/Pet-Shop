@@ -3,36 +3,79 @@
 #include <string.h>
 #include "../TAD.clientes/cliente.h"
 #include "animal.h"
+#include <ctype.h>
 
 void adicionarAnimal(Cliente *listaClientes) {
     if (listaClientes == NULL) {
-        printf("Não há clientes cadastrados para associar o animal.\n");
+        printf("Nao ha clientes cadastrados para associar o animal.\n");
         return;
     }
 
     char nomeCliente[50];
-    printf("Digite o nome do cliente ao qual o animal será associado: ");
+    printf("Digite o nome do cliente ao qual o animal sera associado: ");
     scanf(" %[^\n]", nomeCliente);
 
     Cliente *cliente = buscarClientePorNome(listaClientes, nomeCliente);
     if (cliente == NULL) {
-        printf("Cliente não encontrado.\n");
+        printf("Cliente nao encontrado.\n");
         return;
     }
 
     // Aloca memória para o novo animal
     Animal *novoAnimal = (Animal *)malloc(sizeof(Animal));
     if (novoAnimal == NULL) {
-        printf("Erro ao alocar memória para o animal.\n");
+        printf("Erro ao alocar memoria para o animal.\n");
         return;
     }
 
     printf("Digite o nome do animal: ");
-    scanf(" %[^\n]", novoAnimal->nome);
-    printf("Digite a espécie do animal: ");
-    scanf(" %[^\n]", novoAnimal->especie);
-    printf("Digite o estado de saúde do animal: ");
-    scanf(" %[^\n]", novoAnimal->saude);
+    int valido_nome = 1;
+    do {
+        scanf(" %[^\n]", novoAnimal->nome);
+        valido_nome = 1;
+        // Verifica se o nome contém apenas letras e espaços
+        for (int i = 0; novoAnimal->nome[i] != '\0'; i++) {
+            if (!isalpha(novoAnimal->nome[i]) && novoAnimal->nome[i] != ' ') {
+                valido_nome = 0;
+                printf("Nome invalido, tente novamente:\n ");
+                printf("\nDigite o nome do animal: ");
+                break;
+            }
+        }
+    } while (!valido_nome);
+
+    printf("Digite a especie do animal: ");
+    int valido_especie = 1;
+    do {
+        scanf(" %[^\n]", novoAnimal->especie);
+        valido_especie = 1;
+        // Verifica se a especie contém apenas letras e espaços
+        for (int i = 0; novoAnimal->especie[i] != '\0'; i++) {
+            if (!isalpha(novoAnimal->especie[i]) && novoAnimal->especie[i] != ' ') {
+                valido_especie = 0;
+                printf("Especie invalido, tente novamente:\n ");
+                printf("\nDigite a especie do animal: ");
+                break;
+            }
+        }
+    } while (!valido_especie);
+
+    printf("Digite o estado de saude do animal: ");
+    int valido_saude = 1;
+    do {
+        scanf(" %[^\n]", novoAnimal->saude);
+        valido_saude = 1;
+        // Verifica se a saude contém apenas letras, espaços e números
+        for (int i = 0; novoAnimal->saude[i] != '\0'; i++) {
+            if (!isalnum(novoAnimal->saude[i]) && novoAnimal->saude[i] != ' ') {
+                valido_saude = 0;
+                printf("Saude invalido, tente novamente:\n ");
+                printf("\nDigite a saude do animal: ");
+                break;
+            }
+        }
+    } while (!valido_saude);
+
 
     novoAnimal->prox = NULL;
 
@@ -52,7 +95,7 @@ void adicionarAnimal(Cliente *listaClientes) {
 
 void removerAnimal(Cliente *cliente) {
     if (cliente == NULL || cliente->animais == NULL) {
-        printf("Cliente não possui animais cadastrados.\n");
+        printf("Cliente nao possui animais cadastrados.\n");
         return;
     }
 
@@ -71,7 +114,7 @@ void removerAnimal(Cliente *cliente) {
 
     // Se o animal não foi encontrado
     if (atual == NULL) {
-        printf("Animal não encontrado.\n");
+        printf("Animal nao encontrado.\n");
         return;
     }
 
@@ -105,7 +148,7 @@ Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome) {
 
 void editarAnimal(Cliente *listaClientes) {
     if (listaClientes == NULL) {
-        printf("Não há clientes cadastrados.\n");
+        printf("Nao ha clientes cadastrados.\n");
         return;
     }
 
@@ -131,16 +174,16 @@ void editarAnimal(Cliente *listaClientes) {
 
     // Se o animal não foi encontrado
     if (atual == NULL) {
-        printf("Animal não encontrado para o cliente %s.\n", nomeCliente);
+        printf("Animal nao encontrado para o cliente %s.\n", nomeCliente);
         return;
     }
 
     char novoNome[50], novaEspecie[50], novaSaude[50];
     printf("Digite o novo nome do animal: ");
     scanf(" %[^\n]", novoNome);
-    printf("Digite a nova espécie do animal: ");
+    printf("Digite a nova especie do animal: ");
     scanf(" %[^\n]", novaEspecie);
-    printf("Digite o novo estado de saúde do animal: ");
+    printf("Digite o novo estado de saude do animal: ");
     scanf(" %[^\n]", novaSaude);
 
     // Atualiza as informações do animal

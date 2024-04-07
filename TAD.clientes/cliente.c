@@ -9,7 +9,7 @@ void adicionarCliente(Cliente **listaClientes) {
     // Aloca memória para o novo cliente
     Cliente *novoCliente = (Cliente *)malloc(sizeof(Cliente));
     if (novoCliente == NULL) {
-        printf("Erro ao alocar memória para o cliente.\n");
+        printf("Erro ao alocar memoria para o cliente.\n");
         return;
     }
 
@@ -38,8 +38,8 @@ void adicionarCliente(Cliente **listaClientes) {
         for (int i = 0; novoCliente->endereco[i] != '\0'; i++) {
             if (!isalnum(novoCliente->endereco[i]) && novoCliente->endereco[i] != ' ') {
                 valido_endereco = 0;
-                printf("Endereço invalido, tente novamente:\n ");
-                printf("\nDigite o endereço do cliente: ");
+                printf("Endereco invalido, tente novamente:\n ");
+                printf("\nDigite o endereco do cliente: ");
                 break;
             }
         }
