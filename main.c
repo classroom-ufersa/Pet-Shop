@@ -118,3 +118,70 @@ void carregarDados(Cliente **listaClientes) {
 
     fclose(arquivo);
 }
+
+int main() {
+    Cliente *listaClientes = NULL;
+    carregarDados(&listaClientes);
+
+    int opcao;
+    do {
+        printf("\n--- Menu ---\n");
+        printf("1. Adicionar cliente\n");
+        printf("2. Remover cliente\n");
+        printf("3. Adicionar animal\n");
+        printf("4. Remover animal\n");
+        printf("5. Editar cadastro de animal\n");
+        printf("6. Buscar animal por nome\n");
+        printf("7. Listar clientes e seus respectivos animais\n");
+        printf("8. Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                adicionarCliente(&listaClientes);
+                salvarDados(listaClientes);
+                break;
+            case 2:
+                removerCliente(&listaClientes);
+                salvarDados(listaClientes);
+                break;
+            case 3:
+                adicionarAnimal(listaClientes);
+                salvarDados(listaClientes);
+                break;
+            case 4:
+                removerAnimal(listaClientes);
+                salvarDados(listaClientes);
+                break;
+            case 5:
+                editarAnimal(listaClientes);
+                salvarDados(listaClientes);
+                break;
+            case 6: {
+                char nomeAnimal[50];
+                printf("Digite o nome do animal: ");
+                scanf(" %[^\n]", nomeAnimal);
+                Animal *animal = buscarAnimalPorNome(listaClientes, nomeAnimal);
+                if (animal != NULL) {
+                    printf("Animal encontrado - Nome: %s, Especie: %s, Saude: %s\n", animal->nome, animal->especie, animal->saude);
+                } else {
+                    printf("Animal nao encontrado.\n");
+                }
+                break;
+            }
+            case 7:
+                listarClientes(listaClientes);
+                break;
+            case 8:
+                printf("Obrigado e volte sempre!\n");
+                break;
+            default:
+                printf("Opcao invalida. Por favor, Tente novamente.\n");
+        }
+    } while (opcao != 8);
+
+    liberarMemoria(listaClientes);
+
+    return 0;
+}
