@@ -27,7 +27,7 @@ Lista *lista_retira_animal(Lista*l, char nome[]); // Corrigido o tipo do parâme
 
 Lista *lista_busca_animal(char nome[], Lista *l);
 
-void remove_animal(Lista **lista_animal);
+void removerAnimal(Cliente *cliente);
 
 Animal *cadastra_animal(int num_animal, Cliente *lista_clientes);
 

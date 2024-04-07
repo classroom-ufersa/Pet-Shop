@@ -50,7 +50,44 @@ void adicionarAnimal(Cliente *listaClientes) {
     printf("Animal adicionado com sucesso!\n");
 }
 
-    
+void removerAnimal(Cliente *cliente) {
+    if (cliente == NULL || cliente->animais == NULL) {
+        printf("Cliente não possui animais cadastrados.\n");
+        return;
+    }
+
+    char nome[50];
+    printf("Digite o nome do animal que deseja remover: ");
+    scanf(" %[^\n]", nome);
+
+    Animal *atual = cliente->animais;
+    Animal *anterior = NULL;
+
+    // Procura pelo animal na lista do cliente
+    while (atual != NULL && strcmp(nome, atual->nome) != 0) {
+        anterior = atual;
+        atual = atual->prox;
+    }
+
+    // Se o animal não foi encontrado
+    if (atual == NULL) {
+        printf("Animal não encontrado.\n");
+        return;
+    }
+
+    // Remove o animal da lista do cliente
+    if (anterior == NULL) {
+        cliente->animais = atual->prox;
+    } else {
+        anterior->prox = atual->prox;
+    }
+
+    // Libera a memória alocada para o animal removido
+    free(atual);
+
+    printf("Animal removido com sucesso!\n");
+}
+
 Animal *cadastra_animal(int num_animal, Cliente *lista_clientes){
 
     Animal *pet = (Animal *)malloc(num_animal * sizeof(Animal));
@@ -129,37 +166,6 @@ void imprime_animais(Lista *animal, const char *nome_arquivo)
 
     fclose(arquivo);
     printf("\nDados dos animais foram impressos no arquivo %s.\n", nome_arquivo);
-}
-
-void remove_animal(Lista **lista_animal){
-    int id_remover;
-
-    printf("ID do animal que deseja remover:\n");
-    scanf(" %d", &id_remover);
-
-    // Busca o animal na lista
-    Lista *ant = NULL;
-    Lista *p = *lista_animal;
-
-    while (p != NULL && p->animal->id_animal != id_remover) {
-        ant = p;
-        p = p->proximo;
-    }
-
-    // Se não encontrou o animal na lista
-    if (p == NULL) {
-        printf("Animal nao encontrado!\n");
-        return;
-    }
-
-    // Remove o animal da lista
-    if (ant == NULL)
-        *lista_animal = p->proximo;
-    else
-        ant->proximo = p->proximo;
-
-    free(p);
-    printf("Animal removido com sucesso!\n");
 }
 
 Lista *lista_busca_animal(char nome[], Lista *l)
