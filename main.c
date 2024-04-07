@@ -1,103 +1,120 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "TAD.animais/animal.h"
-#include "TAD.clientes/cliente.h"
+#include "./TAD.animais/animal.h"
+#include "./TAD.clientes/cliente.h"
 
-int main(void){
-    
-    Cliente * lista_clientes = NULL;
-    Lista *animais = NULL;
-    char escolhaop;
-    int num_clientes;
-    
-    do {
-        menu();
-        printf("Escolha uma opcao: ");
-        escolhaop = ler_opcao('1', '8'); 
-        switch (escolhaop) {
-            
-       case '1':
-        
-        printf("Quantos clientes deseja cadastrar? ");
-        scanf("%d", &num_clientes);
-        
-        for(int i = 0; i< num_clientes; i++){
-        adiciona_cliente(&lista_clientes, "clientes.txt");
-        limpabuffer();
-        }
+// Função para salvar os dados em um arquivo texto
+// Função para salvar os dados em um arquivo texto
+void salvarDados(Cliente *listaClientes) {
+    FILE *arquivo = fopen("dados.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
 
+    Cliente *clienteAtual = listaClientes;
+    while (clienteAtual != NULL) {
+        fprintf(arquivo, "Cliente:\n");
+        fprintf(arquivo, "  Nome: %s\n", clienteAtual->nome);
+        fprintf(arquivo, "  Endereço: %s\n", clienteAtual->endereco);
+        fprintf(arquivo, "  Telefone: %s\n", clienteAtual->telefone);
 
-        break;
-
-        case '2':
-        
-        remove_cliente(&lista_clientes);
-        break;
-
-        case '3':
-        printf("---Cadastro de animal---\n");
-        Animal *novo_animal = cadastra_animal(1, lista_clientes);
-        limpabuffer();
-        animais = lista_insere_ordenada(animais, novo_animal);
-        lista_clientes = Cliente_ler_arquivo("clientes.txt");
-
-        break;
-
-        case '4': 
-		remove_animal(&animais);
-        imprime_animais(animais, "animais.txt");
-        break;
-
-	    case '5':
-        printf("Digite o ID do animal que deseja editar: ");
-        int id_alvo;
-        scanf("%d", &id_alvo);
-        lista_edita_animal(animais, id_alvo);
-        limpabuffer();
-        imprime_animais_editado(animais);
-        imprime_animais(animais, "animais.txt");
-        break;
-
-	    case '6':   
-		printf("Digite o nome do animal que deseja buscar: ");
-        char nome_animal[80];
-        scanf(" %[^\n]", nome_animal);
-
-        Lista *animal_encontrado = lista_busca_animal(nome_animal, animais);
-
-        if (animal_encontrado != NULL) {
-            printf("Animal encontrado:\n");
-            printf("Nome: %s\n", animal_encontrado->animal->nome_animal);
-            printf("Especie: %s\n", animal_encontrado->animal->especie);
-            printf("Saude: %s\n", animal_encontrado->animal->saude);
+        Animal *animalAtual = clienteAtual->animais;
+        if (animalAtual == NULL) {
+            fprintf(arquivo, "  Nenhum animal cadastrado.\n");
         } else {
-        printf("Animal nao encontrado.\n");
+            fprintf(arquivo, "  Animais:\n");
+            while (animalAtual != NULL) {
+                fprintf(arquivo, "    - Nome: %s, Espécie: %s, Saude: %s\n", animalAtual->nome, animalAtual->especie, animalAtual->saude);
+                animalAtual = animalAtual->prox;
+            }
         }
-        break;
 
-	    case '7': 
+        fprintf(arquivo, "\n");
 
-        listar_clientes("clientes.txt");
+        clienteAtual = clienteAtual->prox;
+    }
 
-	    //imprime_animais(animais, "animais.txt");
-        //funçao de Buscar Animal por Nome
+    fclose(arquivo);
+}
 
-	    //imprime_animais(animais, "animais.txt");
-        //funçao de Buscar Animal por Nome
-        break;
 
-	    case '8':   
-		//sair
-		printf("Obrigado e volte sempre!\n");
-        break;
 
-        default:
-        printf("Opção inválida. Tente novamente.\n");
-        break;
+// Função para carregar os dados de um arquivo texto
+void carregarDados(Cliente **listaClientes) {
+    FILE *arquivo = fopen("dados.txt", "r");
+    if (arquivo == NULL) {
+        printf("Arquivo de dados nao encontrado ou erro ao abrir o arquivo.\n");
+        return;
+    }
+
+    char linha[200];
+    Cliente *clienteAtual = NULL; // Variável para manter o cliente atual durante a leitura dos animais
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        if (strncmp(linha, "Cliente:", 8) == 0) {
+            clienteAtual = (Cliente *)malloc(sizeof(Cliente));
+            if (clienteAtual == NULL) {
+                printf("Erro ao alocar memoria para o cliente.\n");
+                fclose(arquivo);
+                return;
+            }
+
+            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Nome: "
+            sscanf(linha, "  Nome: %[^\n]", clienteAtual->nome);
+
+            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Endereço: "
+            sscanf(linha, "  Endereco: %[^\n]", clienteAtual->endereco);
+
+            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Telefone: "
+            sscanf(linha, "  Telefone: %[^\n]", clienteAtual->telefone);
+
+            clienteAtual->animais = NULL;
+            clienteAtual->prox = NULL;
+
+            if (*listaClientes == NULL) {
+                *listaClientes = clienteAtual;
+            } else {
+                Cliente *atual = *listaClientes;
+                Cliente *anterior = NULL;
+
+                while (atual != NULL && strcmp(clienteAtual->nome, atual->nome) > 0) {
+                    anterior = atual;
+                    atual = atual->prox;
+                }
+
+                if (anterior == NULL) {
+                    clienteAtual->prox = *listaClientes;
+                    *listaClientes = clienteAtual;
+                } else {
+                    anterior->prox = clienteAtual;
+                    clienteAtual->prox = atual;
+                }
+            }
+        } else if (strncmp(linha, "    - Nome:", 11) == 0 && clienteAtual != NULL) {
+            Animal *novoAnimal = (Animal *)malloc(sizeof(Animal));
+            if (novoAnimal == NULL) {
+                printf("Erro ao alocar memoria para o animal.\n");
+                fclose(arquivo);
+                return;
+            }
+
+            sscanf(linha, "    - Nome: %[^\n], Especie: %[^\n], Saude: %[^\n]", 
+                    novoAnimal->nome, novoAnimal->especie, novoAnimal->saude);
+
+            novoAnimal->prox = NULL;
+
+            if (clienteAtual->animais == NULL) {
+                clienteAtual->animais = novoAnimal;
+            } else {
+                Animal *atual = clienteAtual->animais;
+                while (atual->prox != NULL) {
+                    atual = atual->prox;
+                }
+                atual->prox = novoAnimal;
+            }
         }
-		
-    } while (escolhaop != '8');
+    }
 
-    return 0;
+    fclose(arquivo);
 }
