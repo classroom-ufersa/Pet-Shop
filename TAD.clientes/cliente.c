@@ -18,7 +18,7 @@ void adicionarCliente(Cliente **listaClientes) {
     do {
         scanf(" %[^\n]", novoCliente->nome);
         valido_nome = 1;
-        // Verifica se o nome contém apenas letras e espaços
+        
         for (int i = 0; novoCliente->nome[i] != '\0'; i++) {
             if (!isalpha(novoCliente->nome[i]) && novoCliente->nome[i] != ' ') {
                 valido_nome = 0;
@@ -50,7 +50,7 @@ void adicionarCliente(Cliente **listaClientes) {
     do {
         scanf(" %[^\n]", novoCliente->telefone);
         valido_telefone = 1;
-        // Verifica se o telefone contém apenas números
+    
         for (int i = 0; novoCliente->telefone[i] != '\0'; i++) {
             if (!isdigit(novoCliente->telefone[i])) {
                 valido_telefone = 0;
@@ -64,14 +64,14 @@ void adicionarCliente(Cliente **listaClientes) {
     novoCliente->animais = NULL;
     novoCliente->prox = NULL;
 
-    // Caso a lista de clientes esteja vazia, o novo cliente será o primeiro
+
     if (*listaClientes == NULL) {
         *listaClientes = novoCliente;
     } else {
         Cliente *atual = *listaClientes;
         Cliente *anterior = NULL;
 
-        // Encontra a posição correta para inserir o novo cliente em ordem alfabética
+
         while (atual != NULL && strcmp(novoCliente->nome, atual->nome) > 0) {
             anterior = atual;
             atual = atual->prox;
@@ -103,13 +103,13 @@ void removerCliente(Cliente **listaClientes) {
     Cliente *atual = *listaClientes;
     Cliente *anterior = NULL;
 
-    // Procura pelo cliente na lista
+    
     while (atual != NULL && strcmp(nome, atual->nome) != 0) {
         anterior = atual;
         atual = atual->prox;
     }
 
-    // Se o cliente não foi encontrado
+    
     if (atual == NULL) {
         printf("Cliente nao encontrado.\n");
         return;
@@ -122,7 +122,6 @@ void removerCliente(Cliente **listaClientes) {
         anterior->prox = atual->prox;
     }
 
-    // Libera a memória alocada para o cliente removido
     liberarMemoria(atual);
 
     printf("Cliente removido com sucesso!\n");
