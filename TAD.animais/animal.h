@@ -3,7 +3,8 @@
 
 #include "../TAD.clientes/cliente.h"
 
-typedef struct Animal {
+typedef struct Animal
+{
     char nome[50];
     char especie[50];
     char saude[50];
