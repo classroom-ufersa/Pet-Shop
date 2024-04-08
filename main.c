@@ -118,20 +118,28 @@ void carregarDados(Cliente **listaClientes) {
 int main() {
     Cliente *listaClientes = NULL;
     carregarDados(&listaClientes);
+    int validar;
 
     int opcao;
     do {
-        printf("\n--- Menu ---\n");
-        printf("1. Adicionar cliente\n");
-        printf("2. Remover cliente\n");
-        printf("3. Adicionar animal\n");
-        printf("4. Remover animal\n");
-        printf("5. Editar cadastro de animal\n");
-        printf("6. Buscar animal por nome\n");
-        printf("7. Listar clientes e seus respectivos animais\n");
-        printf("8. Sair\n");
-        printf("Escolha uma opcao: ");
-        scanf("%d", &opcao);
+        do{
+            printf("\n--- Menu ---\n");
+            printf("1. Adicionar cliente\n");
+            printf("2. Remover cliente\n");
+            printf("3. Adicionar animal\n");
+            printf("4. Remover animal\n");
+            printf("5. Editar cadastro de animal\n");
+            printf("6. Buscar animal por nome\n");
+            printf("7. Listar clientes e seus respectivos animais\n");
+            printf("8. Sair\n");
+            printf("Escolha uma opcao: ");
+            validar = scanf("%d", &opcao);
+
+            if(validar != 1 || opcao < 1 || opcao > 8){
+                printf("Opcao invalida, digite novamente.\n");
+                while(getchar() != '\n');
+            }
+        }while(validar != 1 || opcao < 1 || opcao > 8);
 
         switch (opcao) {
             case 1:
