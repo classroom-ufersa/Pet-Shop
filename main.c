@@ -46,7 +46,7 @@ void carregarDados(Cliente **listaClientes) {
     }
 
     char linha[200];
-    Cliente *clienteAtual = NULL; // Variável para manter o cliente atual durante a leitura dos animais
+    Cliente *clienteAtual = NULL; 
     while (fgets(linha, sizeof(linha), arquivo) != NULL) {
         if (strncmp(linha, "Cliente:", 8) == 0) {
             clienteAtual = (Cliente *)malloc(sizeof(Cliente));
@@ -56,13 +56,13 @@ void carregarDados(Cliente **listaClientes) {
                 return;
             }
 
-            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Nome: "
+            fgets(linha, sizeof(linha), arquivo); 
             sscanf(linha, "  Nome: %[^\n]", clienteAtual->nome);
 
-            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Endereço: "
+            fgets(linha, sizeof(linha), arquivo); 
             sscanf(linha, "  Endereco: %[^\n]", clienteAtual->endereco);
 
-            fgets(linha, sizeof(linha), arquivo); // Descarta a linha "  Telefone: "
+            fgets(linha, sizeof(linha), arquivo); 
             sscanf(linha, "  Telefone: %[^\n]", clienteAtual->telefone);
 
             clienteAtual->animais = NULL;

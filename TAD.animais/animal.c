@@ -21,7 +21,6 @@ void adicionarAnimal(Cliente *listaClientes) {
         return;
     }
 
-    // Aloca memória para o novo animal
     Animal *novoAnimal = (Animal *)malloc(sizeof(Animal));
     if (novoAnimal == NULL) {
         printf("Erro ao alocar memoria para o animal.\n");
