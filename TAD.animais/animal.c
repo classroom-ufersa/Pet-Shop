@@ -125,7 +125,6 @@ void removerAnimal(Cliente *cliente) {
         anterior->prox = atual->prox;
     }
 
-    // Libera a memória alocada para o animal removido
     free(atual);
 
     printf("Animal removido com sucesso!\n");
