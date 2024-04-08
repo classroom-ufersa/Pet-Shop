@@ -6,7 +6,7 @@
 #include <ctype.h>
 
 void adicionarCliente(Cliente **listaClientes) {
-    // Aloca memória para o novo cliente
+    
     Cliente *novoCliente = (Cliente *)malloc(sizeof(Cliente));
     if (novoCliente == NULL) {
         printf("Erro ao alocar memoria para o cliente.\n");
@@ -34,7 +34,7 @@ void adicionarCliente(Cliente **listaClientes) {
     do {
         scanf(" %[^\n]", novoCliente->endereco);
         valido_endereco = 1;
-        // Verifica se o endereço contém apenas letras, espaços e números
+        
         for (int i = 0; novoCliente->endereco[i] != '\0'; i++) {
             if (!isalnum(novoCliente->endereco[i]) && novoCliente->endereco[i] != ' ') {
                 valido_endereco = 0;

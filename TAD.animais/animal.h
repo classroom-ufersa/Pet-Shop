@@ -14,7 +14,7 @@ typedef struct Animal {
 void adicionarAnimal(Cliente *listaClientes);
 
 /*funçao que busca animal pelo nome*/
-Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome);
+Animal *buscarAnimalPorNome(Cliente *listaClientes);
 
 /*funçao que remove animal*/
 void removerAnimal(Cliente *cliente);

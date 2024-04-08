@@ -4,8 +4,6 @@
 #include "./TAD.animais/animal.h"
 #include "./TAD.clientes/cliente.h"
 
-// Função para salvar os dados em um arquivo texto
-// Função para salvar os dados em um arquivo texto
 void salvarDados(Cliente *listaClientes) {
     FILE *arquivo = fopen("dados.txt", "w");
     if (arquivo == NULL) {
@@ -38,8 +36,6 @@ void salvarDados(Cliente *listaClientes) {
 
     fclose(arquivo);
 }
-
-
 
 // Função para carregar os dados de um arquivo texto
 void carregarDados(Cliente **listaClientes) {
@@ -159,10 +155,7 @@ int main() {
                 salvarDados(listaClientes);
                 break;
             case 6: {
-                char nomeAnimal[50];
-                printf("Digite o nome do animal: ");
-                scanf(" %[^\n]", nomeAnimal);
-                Animal *animal = buscarAnimalPorNome(listaClientes, nomeAnimal);
+                Animal *animal = buscarAnimalPorNome(listaClientes);
                 if (animal != NULL) {
                     printf("Animal encontrado - Nome: %s, Especie: %s, Saude: %s\n", animal->nome, animal->especie, animal->saude);
                 } else {

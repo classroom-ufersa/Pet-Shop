@@ -131,7 +131,18 @@ void removerAnimal(Cliente *cliente) {
     printf("Animal removido com sucesso!\n");
 }
 
-Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome) {
+
+
+Animal *buscarAnimalPorNome(Cliente *listaClientes) {
+    char nome[50];
+    printf("Digite o nome do animal que deseja buscar: ");
+    scanf(" %[^\n]", nome);
+
+    if (listaClientes == NULL) {
+        printf("Lista de clientes vazia.\n");
+        return NULL;
+    }
+    
     Cliente *clienteAtual = listaClientes;
     while (clienteAtual != NULL) {
         Animal *animalAtual = clienteAtual->animais;
@@ -143,8 +154,11 @@ Animal *buscarAnimalPorNome(Cliente *listaClientes, const char *nome) {
         }
         clienteAtual = clienteAtual->prox;
     }
+
+    printf("Animal nao encontrado.\n");
     return NULL;
 }
+
 
 void editarAnimal(Cliente *listaClientes) {
     if (listaClientes == NULL) {
